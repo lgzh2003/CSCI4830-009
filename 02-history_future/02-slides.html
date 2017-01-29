@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+## Today:
+## The History and Future of Open Source
+
+# Reading Due:
+## *The Cathedral and the Bazaar*<br>through Chapter 4.
+
+---
+class: center
+# Why all the History and Old-Guy Stuff?
+
+---
+background-image: url(images/Eng_30-1.png)
+---
+background-image: url(images/Eng_30-2.png)
+---
+background-image: url(images/Eng_30-3.png)
+---
+background-image: url(images/Eng_30-4.png)
+---
+background-image: url(images/coop2.png)
+---
+background-image: url(images/multicore_crisis.png)
+---
+background-image: url(images/netcraft1.png)
+---
+background-image: url(images/iphone.png)
+
+---
+class: center, middle
+# Why?
+
+---
+class: center, middle
+# Because you are **NOT** too late to make a gigantic impact in Open Source!
+
+---
+## *Housekeeping*
+
+# Rhonda Hoenigman
+## Instructor and Associate Chair
+## rhonda.hoenigman@colorado.edu
+
+--
+
+## *Also, class Git repository on Wednesday.*
+
+---
+# Course Topics
+
+* **Open Source History and Culture**
+* VCS (Git), Repository Structure, Workflows
+* Tooling and Using Open Source
+* Open Source Business Models
+* Licensing and Legal
+* High Availability and Disaster Recovery
+* Project and Community Management and Standards
+* Lean, Agile, Kanban, DevOps
+* Automation, CI, Monitoring, Analytics
+* Security, IaaS, Microservices, Containers
+
+
+---
+class: center, middle
+# History:
+# 1950's and early 1960's
+
+.footnote[https://spiceprogram.org/history/]
+
+---
+class: center, middle
+# Late 1960's 
+
+---
+class: center, middle
+# 1970's 
+
+---
+class: center, middle
+# 1980's 
+
+---
+class: center, middle
+# 1990's 
+
+---
+class: center, middle
+# 2000's
+
+---
+background-image: url(images/candb.jpg)
+---
+## Defining Open Source Software...
+
+---
+background-image: url(images/rms.jpg)
+
+---
+## Defining **Free** Open Source Software...
+
+--
+
+# Free as in...
+
+--
+
+#### ... free beer
+
+--
+
+#### ... free speech
+
+--
+
+#### ... access
+
+--
+
+#### ... over time
+
+--
+
+#### ... not closed
+
+--
+
+#### ... reuse
+
+--
+
+#### ... change
+
+--
+
+#### ... any user
+
+--
+
+#### ... any contributor
+
+---
+class: center, middle
+
+## **When we call software “free,” we mean that it respects the users' essential freedoms: the freedom to run it, to study and change it, and to redistribute copies with or without changes. This is a matter of freedom, not price, so think of “free speech,” not “free beer.”** - RMS
+
+---
+
+# Copyleft
+
+--
+
+## FOSS License that is Viral to Derivative Works
+
+---
+# Quick Aside on Email Architecture
+---
+background-image: url(images/mailarch.jpg)
+---
+# Quick Aside on Email Architecture
+
+* MUA: mail user agent: thunderbird, outlook,
+* MRA: mail retrevial agent: **fetchmail**, built into thunderbird
+* MAA: mail access agent: imapd
+* MSA: mail submission agent: postfix, sendmail
+* MTA: mail transfer agent: postfix, sendmail
+* MDA: mail delivery agent: postfix, mail.local, procmail, pipe
+
+
+---
+background-image: url(images/candb.jpg)
+---
+class: center, middle
+# "The essays in this book did not invent such a fundamental advance, but they do describe one: open-source software, the process of systematically harnessing open development and decentralized peer review to lower costs and improve software quality."
+---
+class: center, middle
+## "The hacker culture and its successes pose by example some fundamental questions about human motivation, the organization of work, the future of professionalism, and the shape of the firm -- and about how all of these things will change and evolve in the information-rich post-scarcity economies of the 21st century and beyond. The hacker culture also, arguably, prefigures some profound changes in the way humans will relate to and reshape their economic surroundings. This should make what we know about the hacker culture of interest to anyone else who will have to live and work in the future."
+---
+background-image: url(images/candb.jpg)
+
+---
+# *The Cathedral and the Bazaar*
+
+.center[# 1. Every good work of software starts by scratching a developer's personal itch.]
+
+---
+# *The Cathedral and the Bazaar*
+
+.right[# 2. Good programmers know what to write. Great ones know what to rewrite (and reuse).]
+
+
+---
+# *The Cathedral and the Bazaar*
+
+# 3. Plan to throw one [version] away; you will, anyhow.
+---
+# *The Cathedral and the Bazaar*
+
+# 4. If you have the right attitude, interesting problems will find you.
+
+---
+# *The Cathedral and the Bazaar*
+
+# 5. When you lose interest in a program, your last duty to it is to hand it off to a competent successor.
+
+---
+# *The Cathedral and the Bazaar*
+
+# 6. Treating your users as co-developers is your least-hassle route to rapid code improvement and effective debugging.
+
+--
+
+### "I'm basically a very lazy person who likes to get credit for things other people actually do." - Linus Torvald
+
+--
+
+### ***Lazy like a fox***
+
+---
+class: center, middle
+# Linus
+
+### ***The big point for me really was not when it was becoming huge, it was when it was becoming little. The big point for me was not being alone and having ten, maybe 100 people being involved. That was a big point. Then everything else was very gradual. Going from 100 people to a million people is not a big deal, to me. Well maybe it is if you want to sell your result, it’s a huge deal, don’t get me wrong. But if you’re interested in the technology and you’re interested in the project, the big part was getting the community. Then the community grew gradually, and there’s actually not a single point where I went like, “Wow that just took off,” because it, I mean, it took a long time, relatively.***
+
+---
+# *The Cathedral and the Bazaar*
+
+# 7. Release early. Release ofen. And listen to your customers.
+
+---
+# *The Cathedral and the Bazaar*
+
+# 8. Given a large enough beta-tester and co-developer base, almost every problem will be characterized quickly and the fix obvious to someone.
+
+--
+
+# *"given enough eyeballs, all bugs are shallow"*
+
+---
+class: center, middle
+# Gartner Hype Cycle
+
+## *We tend to overestimate the effect of a technology in the short run and underestimate the effect in the long run.* - [Roy] Amara's Law
+
+---
+background-image: url(images/1280px-Gartner_Hype_Cycle.svg.png)
+---
+background-image: url(images/Hype-Cycle-General.png)
+---
+background-image: url(images/GartnerOpenSrc_2007.png)
+
+---
+background-image: url(images/Gartner2016Jul.jpg)
+---
+background-image: url(images/gartner-hype-2013-to-2016.jpg)
+---
+# Gartner Hype Cycle - Not Reality
+
+![](images/Gartner2016Jul.jpg)
+
+---
+# RedHat
+## First Really Successful Open Source Company
+---
+background-image: url(images/netcraft2.png)
+---
+# RedHat Reality Check
+![](images/RHT.png)
+
+---
+background-image: url(images/Gartner2016Jul.jpg)
+
+---
+background-image: url(images/future-01.png)
+---
+background-image: url(images/future-02.png)
+---
+background-image: url(images/future-03.png)
+---
+background-image: url(images/future-04.png)
+---
+background-image: url(images/future-05.png)
+---
+background-image: url(images/future-06.png)
+---
+background-image: url(images/future-07.png)
+---
+background-image: url(images/future-08.png)
+---
+background-image: url(images/FOSDEM_2017.png)
+---
+class: center, middle
+
+# On Wednesday
+
+--
+
+# VCS nitty-gritty
+
+--
+
+## RC -> CVS -> SVN -> Git
+
+--
+
+# Reading Assignment/Homework:
+## None!
+
+--
+
+### *Enjoy the snow!*
+
+---
+background-image: url(images/xkcd_open_source.png)
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
