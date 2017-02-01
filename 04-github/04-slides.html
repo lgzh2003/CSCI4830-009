@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+background-image: url(images/cook.jpg)
+
+--
+
+# .hero[*Apple would not exist without immigration, let alone thrive and innovate the way we do.*]
+
+# .hero[Tim Cook]
+
+---
+
+# Respecting and welcoming all who wish to engage with us is fundamental to our values.
+# Philip P. DiStefano, Chancellor
+
+---
+
+# Philip P. DiStefano, Chancellor
+
+## A significant percentage of our students, faculty and staff are from countries around the globe. We are stronger and richer in our knowledge and experience through the presence of all of them. I am writing today to express my concern for the well-being of these members of our community and to provide an **assurance that we are steadfast in our commitment to and support of our all of our international students, scholars, and employees**. 
+
+---
+
+class: center, middle
+# *Sometimes life is going to hit you in the head with a brick. Don't lose faith.*
+
+# - Steve Jobs
+
+---
+class: center, middle
+
+# Welcome!
+
+## Today:
+## GitHub and Git Workflows
+
+---
+# Reading Assignment:
+## *The Cathedral and the Bazaar*<br>Chapters 5-8.
+---
+background-image: url(images/candb.jpg)
+---
+## *The Cathedral and the Bazaar*<br>Chapters 5-8.
+
+# 9. Smart data structures and dumb code works a lot better than the other way around.
+
+--
+
+## *Show me your [code] and conceal your [data structures], and I shall continue to be mystified. Show me your [data structures], and I won’t usually need your [code]; it’ll be obvious.* - Brooks, Chapter 9
+
+---
+# 10. If you treat your beta-testers as if they're your most valuable resource, they will respond by becoming your most valuable resource.
+
+--
+
+* I released early and often.
+* I grew my beta list by adding to it everyone who contacted me about fetchmail.
+* I sent chatty announcements to the beta list whenever I released, encouraging people to participate.
+* And I listened to my beta testers, polling them about design decisions and stroking them whenever they sent in patches and feedback.
+
+---
+class: center, middle
+# * It's really hard to design products by focus groups. A lot of times, people don't know what they want until you show it to them.* - Steve Jobs
+
+---
+# 11. The next best thing to having good ideas is recognizing good ideas from your users. Sometimes the latter is better.
+
+--
+
+### * Interestingly enough, you will quickly find that if you are completely and self-deprecatingly truthful about how much you owe other people, the world at large will treat you like you did every bit of the invention yourself and are just being becomingly modest about your innate genius. * - ESR
+
+---
+background-image: url(images/gvsprint0.png)
+---
+background-image: url(images/gvsprint.png)
+---
+# 12. Often, the most striking and innovative solutions come from realizing that your concept of the problem was wrong.
+
+--
+
+## *Sometimes when you innovate, you make mistakes. It is best to admit them quickly, and get on with improving your other innovations.* - Steve Jobs
+
+---
+# 13. Perfection (in design) is achieved not when there is nothing more to add, but rather when there is nothing more to take away.
+
+--
+
+## *Source code is a liability, not an asset!*
+
+---
+# 14. Any tool should be useful in the expected way, but a truly great tool lends itself to uses you never expected.
+
+--
+
+## *With the SMTP forwarding feature, it pulled far enough in front of the competition to potentially become a “category killer”, one of those classic programs that fills its niche so competently that the alternatives are not just discarded but almost forgotten.*
+
+---
+background-image: url(images/cd1.png)
+
+---
+background-image: url(images/cd2.png)
+
+---
+# 15. When writing gateway software of any kind, take pains to disturb the data stream as little as possible—and never throw away information unless the recipient forces you to!
+
+--
+
+## "Be conservative in what you send, be liberal in what you accept" - Postel's Law
+
+--
+
+*TCP implementations should follow a general principle of robustness: be conservative in what you do, be liberal in what you accept from others.* - John Postel
+
+---
+background-image: url(images/rfc1122.png)
+---
+# 16. When your language is nowhere near Turing-complete, syntactic sugar can be your friend.
+
+--
+
+## *Nowadays it’s more important for a language to be convenient for humans than to be cheap for the computer.*
+
+---
+# 17. A security system is only as secure as its secret. Beware of pseudo-secrets.
+
+---
+# TFA: Two-Factor Authentication
+# MFA: Multi-Factor Authentication
+
+---
+background-image: url(images/tfa1.jpg)
+
+--
+![](images/tfa2.png)
+
+---
+class: center, middle
+background-image: url(images/candb.jpg)
+
+--
+
+# .hero[1997]
+
+---
+background-image: url(images/thehive.png)
+class: center, middle
+
+--
+
+# .hero["It opened my eyes to the possibility of mass collaboration". - Jimmy Wales]
+
+---
+![](images/esr.jpg)
+---
+background-image: url(images/ntpd.png)
+---
+background-image: url(images/rustvgo.png)
+---
+background-image: url(images/rustgo0.png)
+---
+background-image: url(images/rustvgo2.png)
+---
+background-image: url(images/tqbf_tweet_esr.png)
+class: center, middle
+
+--
+
+# .hero["Rust and the limits of swarm design"]
+---
+# Rust and the Limits of Swarm Design
+
+## *In my last blog post I expressed my severe disappointment with the gap between the Rust language in theory (as I had read about it) and the Rust language in practice, as I encountered it when I actually tried to write something in it.* - Eric Raymond
+
+---
+
+# Why VCS?
+
+## 1. We want people to be able to work simultaneously, not serially.
+
+## 2. When people are working at the same time, we want their changes to not conflict with each other.
+
+## 3. We want to archive every version of everything that has ever existed — ever.
+
+---
+# Git: Branching and Merging
+
+* Frictionless Context Switching
+* Role-Based Codelines
+* Feature Based Workflow
+* Disposable Experimentation
+
+--
+# Git Workflows
+
+1. Git Flow
+2. Github Flow
+3. Trunk/Master
+
+---
+class: center, middle
+## Table Stakes:
+# Everything that is in master could be deployed in production
+
+---
+background-image: url(images/git-flow-branching-model.jpg)
+
+---
+background-image: url(images/github-flow-branching-model.jpg)
+
+---
+# Trunk Based Development
+
+![](images/trunk1.png)
+
+---
+# Early Days Trunk Based Development
+
+# Revision Control System: RCS *(1982)*
+
+## *A young revision tree is slender: It consists of only one branch, called the trunk.  As the tree ages, side branches may form. Branches are needed in the following 4 situations.  Temporary fixes, Distributed development and customer modifications, Parallel development, and Conflicting updates.*
+
+---
+# Early Days Trunk Based Development
+
+## Microsoft Secrets: How the World’s Most Powerful Software Company Creates Technology, Shapes Markets and Manages People (1995)
+
+--
+
+1. checkout (update/pull/sync or checkout afresh)
+1. implement feature
+1. build
+1. test the feature
+1. sync (update/pull)
+1. merge
+1. build
+1. test the feature
+1. smoke tests
+1. check in (commit/push)
+1. makes a daily build from HEAD of the shared master branch
+
+---
+# Trunk Based Development Advantages
+
+* Unified versioning, one source of truth
+* Extensive code sharing and reuse
+* Simplified dependency management
+* Avoids painful merges 
+* Large-scale refactoring
+* Collaboration across teams
+* Flexible team boundaries and code ownership
+* Code visibility and clear tree structure providing implicit team namespacing
+
+---
+# Trunk Based Development Costs
+
+* Tooling investments for both development and execution;
+* Codebase complexity, including unnecessary dependencies and difficulties with code discovery; and
+* Effort invested in code health.
+
+---
+class: center, middle
+background-image: url(images/monorepo1.png)
+
+--
+
+![](images/monorepo2.gif)
+
+---
+background-image: url(images/go-mascot.svg)
+---
+background-image: url(images/goalias.png)
+
+---
+# GitHub Flow
+![](images/git-github-workflow.png)
+
+---
+# Pull Request Review Mistakes
+
+--
+# 1. Mindless approval
+
+---
+class: center, middle
+# +1
+# LGTM
+# Ship it!
+
+---
+# 2. Procrastination
+
+---
+# 3. Unified diffs
+
+--
+
+![](images/unified.gif)
+
+---
+# 3. Unified diffs
+
+![](images/split.png)
+
+---
+# 4. Style over substance
+
+---
+# 5. Not catching incomplete changes
+
+---
+# 6. Glossing over test code
+
+---
+# 7. Discounting frontend complexity
+
+---
+# 8. The narrow mindset
+
+---
+# 9. Short-term thinking
+
+---
+# 10. Cursory review of amendments
+
+---
+class: center, middle
+# "You are not expected to understand this."
+
+![](images/thompson-and-ritchie.jpg)
+
+---
+class: center, middle
+# "You are not expected to understand this."
+
+## *“It’s often quoted as a slur on the quantity or quality of the comments in the Bell Labs research releases of Unix. Not an unfair observation in general, I fear, but in this case unjustified… we tried to explain what was going on. ‘You are not expected to understand this’ was intended as a remark in the spirit of ‘This won’t be on the exam,’ rather than as an impudent challenge.”*
+
+---
+class: center, middle
+# “It’s really hard to overstate how much of the modern information economy is built on the work Dennis did.” - Rob Pike
+
+---
+class: center, middle
+# .hero[GitHub Alternatives: GitLab, Gogs, & Gittea]
+
+---
+background-image: url(images/gl1.png)
+---
+background-image: url(images/gl2.png)
+---
+background-image: url(images/gogs.png)
+---
+background-image: url(images/gitea.png)
+---
+background-image: url(images/gitea1.png)
+
+---
+background-image: url(images/8760.jpg)
+
+---
+# https://alexvermeer.com/8760hours/
+
+* Values & Purpose
+* Contribution & Impact	
+* Location & Tangibles
+* Money & Finances
+* Career & Work
+* Health & Fitness
+* Education & Skill Development
+* Social Life & Relationships
+* Emotions & Well-Being
+* Character & Identity
+* Productivity & Organization
+* Adventure & Creativity
+
+---
+class: center, middle
+# Class Website on GitHub
+
+![](images/cscigh.png)
+
+---
+class: center, middle
+# A Note about GitHub Accounts
+
+---
+class: center, middle
+# Wednesday: Open Source Licensing and Business Models
+
+## Homework: GitHub account for class use
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
