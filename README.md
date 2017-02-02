@@ -40,15 +40,17 @@ You are expected to attend all lectures, complete assigned readings, complete 4-
 Students average 1-2 hours of effort per homework, and as little as 8 hours for their public open source contribution. Some students may find open source to be personally and professionally rewarding, and choose make significantly larger contributions. If you find yourself spending too much time, not understanding the concepts, or have a scheduling emergency, you should email Ned immediately or chat after class.
 
 ## Student Outcomes
-a) Apply Knowledge
-b) Computing Requirements
-d) Teamwork
-e) Professional Issues
-f) Communicate Effectively
-g) Analyze Impacts
-h) Professional Development
-i) Current Techniques
-k) Design & Development
+<ol type="a">
+  <li>Apply Knowledge</li>
+  <li>Computing Requirements</li>
+  <li>Teamwork</li>
+  <li>Professional Issues</li>
+  <li>Communicate Effectively</li>
+  <li>Analyze Impacts</li>
+  <li>Professional Development</li>
+  <li>Current Techniques</li>
+  <li>Design & Development</li>
+</ol>
 
 ## Academic Honesty
 Working with your fellow students—for example, studying together for exams—can be very helpful in learning. Studies have shown that the single most important factor in determining the success of students was whether or not they had developed intellectual relationships with other students. On the other hand, some ways of working together can strongly interfere with your learning—for example, copying their answers.  We will adhere to the University's Honor Code and US Copyright Law, and you will be required to certify that all work is your own.
