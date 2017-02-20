@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+## Today:
+## Open Source Languages & Project Health
+
+---
+background-image: url(images/dhb_framework2.png)
+
+---
+# Law of the Instrument
+
+## "I suppose it is tempting, if the only tool you have is a hammer, to treat everything as if it were a nail." - Abraham Maslow, 1966
+
+---
+# Polyglot Programmer
+
+--
+
+## Using the right tool for every job means everything you do is a little bit easier (or better, or faster, or all of the above).
+
+--
+
+## Knowing multiple programming paradigms expands your mind and makes you better at programming in every language.
+
+---
+background-image: url(images/polyglot1.png)
+---
+## Datastores (MySQL, PostgreSQL, CouchDB, Redis)
+## Caching systems (Memcached, Varnish)
+## Queueing systems (RabbitMQ, ZeroMQ, AMPQ, Beanstalkd)
+## RPC protocols (REST, Thrift, Protocol Buffers)
+## Serialization protocols (XML, Yaml, JSON)
+---
+background-image: url(images/golang.gif)
+---
+background-image: url(images/shopifygo.png)
+---
+# Docker, Packer, Terraform, InfluxDB, Gogs
+# Google, Netflix, Uber, Dropbox, SendGrid, SoundCloud, CloudFlare
+
+---
+
+# Go - Why?
+
+## Go fast!
+
+## Make programming fun again.
+
+--
+
+# Make the language fast.
+# Make the tools fast.
+
+---
+# Java runs on the JVM
+
+![](images/goperf1.png)
+
+---
+# Go runs directly on underlying hardware.
+
+![](images/goperf2.png)
+
+---
+# Garbage Collected
+
+## Pointers but no pointer arithmetic
+## Variables are zero-initialized
+## Array access is bounds-checked
+
+--
+
+## No dangling pointers
+## No more malloc(), free()!
+
+--
+
+## **No buffer overflows**!
+
+---
+# Why isn't programming fun?
+
+### Compiled, statically-typed languages (C, C++, Java) require too much typing and too much thinking:
+* verbose, lots of repetition
+* too much focus on type hierarchy
+* types get in the way as much as they help
+* compiles take far too long
+
+### Dynamic languages (Python, JavaScript) fix these problems (no more types, no more compiler) but introduce others:
+* errors at run time that should be caught statically
+* no compilation means slow code
+
+--
+
+## Can we combine the best of both?
+
+---
+# Go Language Summary
+
+### Methods: on any type, orthogonal to type system.
+### Static types: enough to compile well, but inferred much of the time.
+### Abstract types: interface values, relations inferred statically.
+### Safe: lightweight feel of a scripting language but compiled.
+### Concurrency: lightweight way to start new thread of control.
+### Synchronization: explicit, easy message passing.
+
+---
+background-image: url(images/goreadable.png)
+
+---
+background-image: url(images/cpp-spec.png)
+---
+background-image: url(images/javaspec.png)
+---
+background-image: url(images/gospec.png)
+---
+background-image: url(images/sendgridgo.png)
+---
+background-image: url(images/moviogo.png)
+---
+background-image: url(images/scala.jpg)
+---
+# Movio: Challenges with Scala
+
+--
+
+# Slow compilation
+# Slow deployments
+# Tooling: IDE support was poor
+# Criticism for object-oriented programming
+
+---
+background-image: url(images/oopdisaster.png)
+
+---
+## Lawrence Krubner
+
+# "There are many beautiful ideas that people associate with OOP. I am going to show 2 things:"
+
+## 1.) compared to other languages OOP languages have no unique strengths
+
+## 2.) compared to other languages OOP languages inflict a heavy burden of unneeded complexity
+
+---
+## Lawrence Krubner
+
+# "Those features which are potentially good (data hiding, contract enforcement, polymorphism) are not unique to OOP and, in fact, stronger versions of these things are available in non-OOP languages. Those features that are unique to OOP (dependency injection, instantiation) are awful and exist only because OOP is awful."
+
+---
+background-image: url(images/moviogo.png)
+---
+# Movio: Why Golang made sense
+
+# It's simple to learn
+### "It took some of us six months including some after hours MOOCs, to be able to get relatively comfortable with Scala. In contrast, we picked up ‘Go’ in two weeks."
+
+---
+# Movio: Why Golang made sense
+# Simpler code is more readable code
+### "No map, no flatMap, no fold, no generics, no inheritance… Do we miss them? Perhaps we did, for about two weeks."
+
+---
+# Movio: Why Golang made sense
+# Channels and goroutines have made our job so much easier
+### "It's not just the fact that channels and goroutines are cheaper in terms of resources, compared to threadpool-based Futures and Promises, resources being memory and CPU. They are also easier to reason about when coding."
+
+---
+# Movio: Why Golang made sense
+# It compiles fast and runs fast
+
+## "Our Go microservices currently:"
+
+* Build in 5 seconds or less
+* Test in 1 or 2 seconds
+* Run in our CI infrastructure in less than half a minute
+* Deploy new containers in 10 seconds or less
+* Tiny containers: average Go docker container is 16.5MB, vs 220MB for Scala
+* Low-memory footprint: recently, movio rewrote a crucial service from Scala to Go: from 4G to 300M for the worst-case scenario
+* Fast starts and fast shutdowns: just a binary; no need to start a VM
+
+---
+# Movio: Why Golang made sense
+# Tooling
+
+![](images/moviogo2.jpg)
+
+---
+# Movio: Golang For Everything?
+
+--
+
+# Choose based on your use case.
+---
+background-image: url(images/graham.png)
+---
+background-image: url(images/grahamlisp.png)
+
+---
+background-image: url(images/moore0a.png)
+
+---
+# Integrated circuits will lead to such wonders as home computers–or at least terminals connected to a central computer–automatic controls for automobiles, and personal portable communications equipment. - Moore, 1965
+
+---
+background-image: url(images/moore0.png)
+---
+background-image: url(images/moore.png)
+
+---
+# “Modern processors are a like nitro fueled funny cars, they excel at the quarter mile. Unfortunately modern programming languages are like Monte Carlo, they are full of twists and turns.” — David Ungar
+
+---
+# The C10k Problem
+
+# "Thread per connection" approach is conceptually neat, but doesn't scale well in practice.
+# What does scale well (event-driven callbacks, asynchronous APIs) are harder to understand, maintain, and debug.
+---
+# Concurrency
+## Hoare 1977: Communicating Sequential Processes
+
+## Threads and locks are concurrency primitives; CSP is a concurrency model
+## Learning CSP changes the way you think about concurrent programming
+
+---
+# In traditional concurrent programs, you communicate by sharing memory. In Go, you share memory by communicating.
+---
+background-image: url(images/goroutines.jpg)
+
+---
+background-image: url(images/goroutines2.png)
+
+---
+# Concurrency
+## Cheap to create a new flow of control (goroutine):
+
+```
+func main() {
+    go expensiveComputation(x, y, z)
+    anotherExpensiveComputation(a, b, c)
+}
+```
+## Two expensive computations in parallel.
+
+---
+# Synchronization
+
+## Use explicit messages to communicate and synchronize.
+
+```
+func computeAndSend(ch chan int, x, y, z int) {
+    ch <- expensiveComputation(x, y, z)
+}
+
+func main() {
+    ch := make(chan int)
+    go computeAndSend(ch, x, y, z)
+    v2 := anotherExpensiveComputation(a, b, c)
+    v1 := <-ch
+    fmt.Println(v1, v2)
+}
+```
+---
+# Demo?
+# Godoc / Gofmt / Concurrency example
+
+---
+background-image: url(images/gophercon.png)
+
+---
+# Project Health and Sustainable Open Source
+
+--
+
+# "Sustainable open source is an open source project that supports itself."
+
+--
+
+# "Capable of delivering improvements and fixing problems with its products in a timely manner, and that the project itself has a reasonable prospect of continuing into the future."
+
+---
+## Project and Community Evaluation
+
+# Update Frequency
+
+--
+
+# Issues
+
+--
+
+# Forks, stars, downloads
+
+--
+
+# Documentation 
+
+
+---
+## Project and Community Evaluation
+
+# Project, organization or user reputation
+
+# Number of contributors
+
+# Who else uses it? 
+
+# License
+
+---
+## Project and Community Evaluation
+
+# Technology stack
+
+# The code itself
+
+---
+## Evaluating Project Health
+
+# Capability Maturity Model (CMM)
+
+## Rate organization’s ability to deliver a given piece of software, on time and with an acceptable level of quality.
+### CMMI-DEV (Capability Maturity Model Integration for Development) 
+### SPICE (Software Process Improvement and Capability dEtermintation, otherwise known as ISO 15504)
+
+---
+background-image: url(images/cmm.jpg)
+
+---
+## Evaluating Project Health
+
+# Reuse Readiness Rating
+
+## NASA Earth Science Data Systems (ESDS) Software Reuse Working Group (WG)
+## Designed to allow evaluation of any software component, regardless of the development methodology of that component
+
+---
+## Evaluating Project Health
+
+# OSS-Watch Openness Rating
+## Identify strong and weak points in a project’s management structure with respect to enabling third party collaboration and reuse of outputs
+## Identify areas that may be unintentionally limiting collaboration opportunities
+### Allows third parties to understand what barriers exist with respect to making local modifications to a third party’s software
+
+---
+## Evaluating Project Health: Automated Techniques
+
+## Automated community evaluation
+
+## Automated software quality evaluation
+
+---
+background-image: url(images/cart-tree.png)
+---
+# Software Sustainability Maturity Model
+
+## SSMM draws inspiration from each of the evaluation techniques described above
+
+# http://oss-watch.ac.uk/resources/ssmm
+
+---
+background-image: url(images/ssmm1.png)
+---
+background-image: url(images/ssmm2.png)
+---
+background-image: url(images/ssmm3.png)
+
+---
+background-image: url(images/node.png)
+---
+# Left-pad 
+
+```
+module.exports = leftpad;
+
+function leftpad (str, len, ch) {
+  str = String(str);
+
+  var i = -1;
+
+  if (!ch && ch !== 0) ch = ' ';
+
+  len = len - str.length;
+
+  while (++i < len) {
+    str = ch + str;
+  }
+
+  return str;
+}
+```
+## 2,486,696 downloads in most recent month
+
+---
+# Left-pad
+
+### Un-un-publishing is an unprecedented action that we're taking given the severity and widespread nature of breakage, and isn't done lightly," Voss explained about an hour ago.
+
+### "This action puts the wider interests of the community of NPM users at odds with the wishes of one author; we picked the needs of the many. This whole situation sucks. We will be carefully considering the issues raised by and publishing a post-mortem later.
+
+### "In the meantime, several thousand open source projects have been repaired, and I'm sleeping fine tonight."
+
+---
+class: center, middle
+# Wednesday: Open Source Licensing *Special Guest Speaker* Jason Carolan!
+
+--
+
+# Please Ask Questions
+
+--
+
+# Homework Announced
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
