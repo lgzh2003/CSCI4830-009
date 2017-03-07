@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+## Today:
+## Open Source Business Models
+
+---
+# Trunk Based Development
+
+![](images/trunk.png)
+
+--
+
+## https://trunkbaseddevelopment.com
+
+---
+background-image: url(images/candb.jpg)
+---
+# 18. To solve an interesting problem, start by finding a problem that is interesting to you.
+
+--
+
+# 1. Every good work of software starts by scratching a developer’s personal itch.
+
+---
+# 19. Provided the development coordinator has a medium at least as good as the Internet, **and knows how to lead without coercion**, many heads are inevitably better than one.
+
+---
+# ESR on top-down project management
+
+## Whatever it is certainly doesn’t include reliable execution by deadline, or on budget, or to all features of the specification; it’s a rare ‘managed’ project that meets even one of these goals, let alone all three.
+
+--
+
+## It also does not appear to be abile to adapt to changes in technology and economic context during the project lifetime, either; the open-source community has proven far more efective on that score.
+
+---
+background-image: url(images/pmtri.jpg)
+
+---
+## "Linus is not an innovative genius of design in the way that, say, Richard Stallman or James Gosling are.  Rather, Linus seems to me to be a genius of engineering and implementation, with a sixth sense for avoiding bugs and development dead-ends and a true knack for finding the minimum-effort path from point A to point B. Indeed, the whole design of Linux breathes this quality and mirrors Linus’s essentially conservative and simplifying design approach."
+---
+background-image: url(images/ken_n_dennis.jpg)
+--
+class: center, middle
+.hero[The Unix Philosophy]
+
+---
+# The Unix philosophy emphasizes building simple, short, clear, modular, and extensible code that can be easily maintained and repurposed by developers other than its creators. The Unix philosophy favors composability as opposed to monolithic design.
+---
+# Do one thing and do it well
+# Small is beautiful
+# Rapid prototyping 
+# Portability over efficiency
+# Evolutionary programming   
+# Write programs to work together
+
+---
+# $ ps aux | grep conky | grep -v grep | awk '{print $2}' | xargs kill
+
+---
+# Worse Is Better
+
+### *It is the idea that quality does not necessarily increase with functionality—that there is a point where less functionality ("worse") is a preferable option ("better") in terms of practicality and usability. Software that is limited, but simple to use, may be more appealing to the user and market than the reverse.* - Richard P. Gabriel 
+
+--
+
+# Simplicity over perfection
+--
+
+# Evolutionary programming
+
+---
+background-image: url(images/floss3.png)
+---
+background-image: url(images/floss2.png)
+---
+background-image: url(images/floss1.png)
+---
+background-image: url(images/rms.jpg)
+---
+## FOSS vs FLOSS
+
+--
+
+# FOSS: Free and Open Source Software
+
+--
+
+# FLOSS: Free/Libre and Open Source Software
+
+--
+
+## "The free software movement is a campaign for computer users' freedom; we say that a nonfree program is an injustice to its users. The open source camp declines to see the issue as a matter of justice to the users, and bases its arguments on practical benefits only." - RMS
+
+---
+# We in the free software movement don't use ***free software*** and ***open source***, because we don't want to be neutral on the political question. We stand for freedom, and we show it every time—by saying “free” and “libre”— or “free (libre)”. - RMS
+---
+# The Four Essential Freedoms
+
+### 1. The freedom to run the program as you wish, for any purpose (freedom 0).
+### 2. The freedom to study how the program works, and change it so it does your computing as you wish (freedom 1).
+### 3. The freedom to redistribute copies so you can help your neighbor (freedom 2).
+### 4. The freedom to distribute copies of your modified versions to others (freedom 3). By doing this you can give the whole community a chance to benefit from your changes.
+
+---
+background-image: url(images/floss0.png)
+---
+background-image: url(images/rms.jpg)
+---
+background-image: url(images/rms1.png)
+---
+background-image: url(images/rms2.png)
+---
+background-image: url(images/rms3.png)
+---
+background-image: url(images/rms4.png)
+---
+background-image: url(images/rms5.png)
+---
+background-image: url(images/rms6.png)
+---
+background-image: url(images/rms7.png)
+---
+background-image: url(images/erdos.jpg)
+---
+background-image: url(images/vanhalen.png)
+---
+## Van Halen tends to make the news portion of radio more often than it gets airplay. There was the M&M riot in New Mexico where the band did thousands of dollars of damage to a hall when they were served brown M&Ms — their contract said the brown ones had to be removed." - 1981
+
+---
+Van Halen was the first band to take huge productions into tertiary, third-level markets. We'd pull up with nine eighteen-wheeler trucks, full of gear, where the standard was three trucks, max. And there were many, many technical errors — whether it was the girders couldn't support the weight, or the flooring would sink in, or the doors weren't big enough to move the gear through.
+
+The contract rider read like a version of the Chinese Yellow Pages because there was so much equipment, and so many human beings to make it function. So just as a little test, in the technical aspect of the rider, it would say "Article 148: There will be fifteen amperage voltage sockets at twenty-foot spaces, evenly, providing nineteen amperes ..." This kind of thing. And article number 126, in the middle of nowhere, was: "There will be no brown M&M's in the backstage area, upon pain of forfeiture of the show, with full compensation." 
+
+So, when I would walk backstage, if I saw a brown M&M in that bowl ... well, line-check the entire production. Guaranteed you're going to arrive at a technical error. They didn't read the contract. Guaranteed you'd run into a problem. Sometimes it would threaten to just destroy the whole show. Something like, literally, life-threatening.
+
+*David Lee Roth*
+
+
+---
+background-image: url(images/glgh.png)
+
+---
+background-image: url(images/ghpricing.png)
+
+---
+background-image: url(images/glpricing.png)
+
+---
+background-image: url(images/deargithub.png)
+---
+## *Open source is critically important to GitHub and we take this feedback very seriously. We are working on several of the initiatives discussed, and will look for proactive ways to engage with open source maintainers to continue to make GitHub a great experience for their communities.*
+---
+background-image: url(images/deargithub2.png)
+
+---
+![](images/nflix1.png)
+---
+![](images/nflix2.png)
+---
+![](images/nflix3.png)
+---
+![](images/nflix4.png)
+---
+![](images/simian0.jpg)
+---
+![](images/simian1.png)
+---
+![](images/simian2.png)
+---
+## For more information about the Simian Army, you can watch Microservices at Netflix Scale: Principles, Tradeoffs and Lessons Learned
+### https://www.youtube.com/watch?v=57UK46qfBLY
+
+---
+![](images/simian3.png)
+---
+## Chaos Engineering is the discipline of experimenting on a distributed system in order to build confidence in the system’s capability to withstand turbulent conditions in production.
+
+---
+## Chaos Engineering
+
+### 1. Start by defining ‘steady state’ as some measurable output of a system that indicates normal behavior.
+### 2. Hypothesize that this steady state will continue in both the control group and the experimental group.
+### 3. Introduce variables that reflect real world events like servers that crash, hard drives that malfunction, network connections that are severed, etc.
+### 4. Try to disprove the hypothesis by looking for a difference in steady state between the control group and the experimental group.
+
+---
+background-image: url(images/ccraft.png)
+---
+background-image: url(images/ccraft2.png)
+---
+background-image: url(images/ccraft3.png)
+---
+background-image: url(images/ccraft4.png)
+
+---
+background-image: url(images/buffer0.png)
+---
+background-image: url(images/buffer1.png)
+---
+background-image: url(images/buffer2.png)
+---
+background-image: url(images/buffer3.png)
+---
+background-image: url(images/buffer4.png)
+---
+background-image: url(images/buffer5.png)
+---
+background-image: url(images/buffer6.png)
+---
+background-image: url(images/buffer7.png)
+---
+background-image: url(images/ggab.jpg)
+
+---
+background-image: url(images/patreon.png)
+---
+background-image: url(images/gratipay.png)
+---
+background-image: url(images/siraj1.png)
+---
+background-image: url(images/siraj2.png)
+---
+background-image: url(images/siraj3.png)
+
+---
+background-image: url(images/vue1.png)
+---
+background-image: url(images/vue2.png)
+---
+background-image: url(images/vue3.png)
+---
+background-image: url(images/vue4.png)
+---
+background-image: url(images/vue5.png)
+
+---
+class: center, middle
+
+# Meetups
+
+--
+
+# 2/2: Boulder Music Tech Hackers
+
+## This Thursday is a hack night where we get a chance to move our projects forward, get help from some fellow music tech hackers, or get inspired for a new project. Tables will be setup as well as areas for soldering. Food, beer, and meeting space is provided by AppliedTrust.
+
+---
+class: center, middle
+
+# Meetups
+
+# 2/8: Boulder Drupal Meetup
+
+### Next week, Neil Cousineau will give a talk about Drupal access control. Access control is a vital part of any website as it determines which users can do what actions. Getting this setup correctly can be a tricky venture. Neil has quite a bit of experience with this at [E Source](https://www.esource.com/) and he's going to give us some tips on how to get this done correctly to ensure your secrets aren't leaking out.
+
+---
+class: center, middle
+
+# Meetups
+
+# 2/9: Boulder Linux User Group
+
+## A talk on [Sysdig](http://www.sysdig.org/), which is sortof like `tcpdump` for the Linux kernel, by the ultimate Linux warrior, **Trent Hein**! Come for the war stories, leave knowing how to troubleshoot the trickiest problems!
+
+---
+background-image: url(images/sysdig.png)
+
+---
+background-image: url(images/hack.png)
+
+---
+class: center, middle
+# Homework Assignment
+
+## Submit a PR to improve the class notes 
+
+# Due: Anytime This Semester
+
+![](images/cscigh.png)
+
+---
+background-image: url(images/tut.png)
+
+--
+
+# .hero[https://try.github.io/]
+
+---
+background-image: url(images/tut2.png)
+
+--
+# .hero[https://guides.github.com/activities/hello-world/]
+
+---
+class: center, middle
+# Next Week: **Using** Open Source
+
+# Homework: Submit a PR to improve the class notes
+
+![](images/cscigh.png)
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+## Today:
+## Using Open Source
+
+---
+background-image: url(images/snap.jpg)
+
+---
+background-image: url(images/gl1.png)
+
+---
+background-image: url(images/gl2.png)
+---
+background-image: url(images/gl3.png)
+
+--
+## 2017/01/31 23:00-ish YP thinks that perhaps pg_basebackup is being super pedantic about there being an empty data directory, decides to remove the directory. After a second or two he notices he ran it on db1.cluster.gitlab.com, instead of db2.cluster.gitlab.com
+## 2017/01/31 23:27 YP - terminates the removal, but it’s too late. Of around 310 GB only about 4.5 GB is left
+
+---
+![](images/nflix5.png)
+---
+background-image: url(images/todogroup.png)
+
+---
+background-image: url(images/nflix7.png)
+---
+background-image: url(images/nflix6.png)
+---
+# Fault Tolerance at Scale
+
+## The Netflix API receives more than 1 billion incoming calls per day
+## Fans out to several billion outgoing calls (averaging a ratio of 1:6) to dozens of underlying subsystems 
+## Peaks of over 100k dependency requests per second
+
+---
+# Fault Tolerance at Scale
+
+## Imagine an application that depends on 30 services where each service has 99.99% uptime...
+
+---
+background-image: url(images/hystrix3a.png)
+---
+# 99.99% ("four nines") uptime means...
+
+--
+
+# Less than 1 hour of downtime per year
+
+--
+
+## 4.38 minutes/mo == 52.56 minutes/yr == 1 min/wk
+
+---
+background-image: url(images/hystrix3a.png)
+---
+# Fault Tolerance at Scale
+
+## An application that depends on 30 services where each service has 99.99% uptime:
+
+
+--
+
+## 99.99^30 = 99.7% uptime
+
+--
+
+## 0.3% of 1 billion requests = 3,000,000 failures
+
+--
+
+## 2+ hours downtime/month even if all dependencies have excellent uptime.
+
+---
+background-image: url(images/hystrix3.png)
+
+---
+background-image: url(images/hystrix.png)
+---
+## Hystrix gives protection from and control over latency and failure from dependencies accessed via third-party client libraries.
+
+--
+
+### Stop cascading failures in a complex distributed system.
+
+--
+
+### Fail fast and rapidly recover.
+
+--
+
+### Fallback and gracefully degrade when possible.
+
+--
+
+### Concurrency aware request caching: automated batching through request collapsing.
+
+--
+
+### Enable near real-time monitoring, alerting, and operational control.
+
+---
+class: center, middle
+# Bulkhead: a dividing wall or barrier between compartments in a ship, aircraft, or other vehicle.
+---
+# Hystrix Failure Modes
+
+# 1) Fail silent
+# 2) Fail fast 
+# 3) Custom fallback
+        
+Reference:
+        Blog about to make the project resilient to the failures of the other systems using Hystrix.
+
+https://lab.getbase.com/embracing-failure-with-hystrix/
+        
+---
+background-image: url(images/hystrixdash0.png)
+---
+background-image: url(images/hystrixdash1.png)
+---
+background-image: url(images/hystrixdash2.png)
+---
+background-image: url(images/hystrixdash3.png)
+---
+background-image: url(images/hystrixdash4.png)
+---
+background-image: url(images/hystrixdash5.png)
+---
+background-image: url(images/nfc1.png)
+---
+background-image: url(images/nfc2.png)
+---
+background-image: url(images/nfc3.png)
+---
+background-image: url(images/nfc4.png)
+---
+background-image: url(images/nfc5.png)
+---
+background-image: url(images/nfc6.png)
+---
+background-image: url(images/nfc7.png)
+---
+background-image: url(images/nfc8.png)
+---
+background-image: url(images/nfc9.png)
+---
+background-image: url(images/nfc10.png)
+---
+background-image: url(images/nfc11.png)
+---
+background-image: url(images/nfc12.png)
+---
+background-image: url(images/nfc13.png)
+---
+background-image: url(images/nfc14.png)
+---
+background-image: url(images/nfc15.png)
+---
+background-image: url(images/nfc16.png)
+---
+background-image: url(images/nfc17.png)
+---
+background-image: url(images/nfc18.png)
+---
+# Responsibility & Freedom Lessons for Open Source 
+# 1) As a project grows, minimize rules.
+# 2) Inhibit chaos with ever more high performance people.
+# 3) Flexibility is more important than efficiency long-term.
+
+---
+background-image: url(images/rethink1.png)
+---
+background-image: url(images/rethink2.png)
+---
+background-image: url(images/rethink3.png)
+---
+background-image: url(images/rethink4.png)
+---
+background-image: url(images/rethink5.png)
+---
+background-image: url(images/noredhat.png)
+---
+class: center, middle
+# 10x Sales Effort
+---
+## We wanted to build an elegant, robust, and beautiful product, so we optimized for the following metrics:
+
+### **Correctness.** We made very strict guarantees, and fulfilled them religiously.
+### **Simplicity of the interface.** We took on most of the complexity in the implementation, so application developers wouldn’t have to.
+### **Consistency.** We made everything from the query language, to the client drivers, to cluster configuration, to documentation, to the marketing copy on the front page as consistent as possible.
+
+---
+background-image: url(images/wib.png)
+---
+## The majority of users wanted these three trade-offs instead:
+
+### **Timely arrival.** They wanted the product to actually exist when they needed it, not three years later.
+### **Palpable speed.** People wanted RethinkDB to be fast on workloads they actually tried, rather than “real world” workloads we suggested.
+### **A use case.** We set out to build a good database system, but users wanted a good way to do X
+---
+class: center
+## It’s not that we didn’t try to ship quickly, make RethinkDB fast, and build the ecosystem around it to make doing useful work easy. We did. But correct, simple, and consistent software takes a very long time to build. That put us three years behind the market.
+
+---
+class: center
+## We worked hard to explain why correctness, simplicity, and consistency are important, but ultimately these weren’t the metrics of goodness that mattered to most users.
+
+---
+class: center
+## To be honest, it hurt. It hurt a lot. It was unfathomable to us why people would choose a system that barely does the thing it’s supposed to do (store data), has a big kernel lock, throws away errors at random, implements single node features that stop working when you shard, has a barely working sharding system despite it being one of the core features of the product, provides essentially no correctness guarantees, and exposes a hodge-podge of interfaces that have no discernible consistency or unity of vision.
+
+---
+class: center
+## But over time I learned to appreciate the wisdom of the crowds. MongoDB turned regular developers into heroes ***when people needed it***, not years after the fact. It made data storage fast, and let people ship products quickly. And over time, MongoDB grew up. One by one, they fixed the issues with the architecture, and now it is an excellent product. It may not be as beautiful as we would have wanted, but it does the job, and it does it well.
+
+---
+background-image: url(images/rethink6.png)
+---
+background-image: url(images/rethink7.png)
+---
+background-image: url(images/cockroach0.png)
+---
+background-image: url(images/cockroach0b.png)
+---
+background-image: url(images/cockroach1.png)
+---
+# If you’re serious about building a company around open source software, you must walk a narrow path: introduce paid features too soon, and risk curtailing adoption. Introduce paid features too late, and risk encouraging economic free riders. Stray too far in either direction, and your efforts will ultimately continue only as unpaid open source contributions.
+---
+## Features necessary for a startup to succeed will be APL, and part of the open core; a feature which is primarily useful only to an already successful company will be CCL, and part of the enterprise product.
+
+![](images/cockroach2.png)
+
+---
+background-image: url(images/cockroachemail.png)
+
+---
+class: center, middle
+# Wednesday: Golang and Other Open Source Languages
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
+

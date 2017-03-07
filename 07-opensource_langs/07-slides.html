@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+## Today:
+## Open Source Languages
+
+---
+background-image: url(images/cockroach1.png)
+---
+background-image: url(images/neo4j.png)
+---
+background-image: url(images/neo4j2.png)
+---
+# Neo4j Open Core + Closed Enterprise
+![](images/neo4j3.png)
+---
+![](images/mongodb1.png)
+---
+# MongoDB Enterprise Advanced
+![](images/mongodb2.png)
+---
+![](images/mongodb3.png)
+---
+![](images/elastic0.png)
+---
+![](images/elastic.png)
+---
+![](images/elastic2.png)
+---
+background-image: url(images/influx1.png)
+---
+background-image: url(images/influx2.png)
+---
+background-image: url(images/influx3.png)
+---
+background-image: url(images/influx4.png)
+
+---
+background-image: url(images/wib.png)
+
+---
+## ESR - *The Cathedral and the Bazaaar*
+
+# 13. Perfection (in design) is achieved not when there is nothing more to add, but rather when there is nothing more to take away.
+--
+
+## *Source code is a liability, not an asset!*
+
+---
+class: center, middle
+background-image: url(images/dieter.jpg)
+
+.hero[Deiter Rams]
+
+---
+class: center, middle
+background-image: url(images/dieter.jpg)
+
+.hero[Weniger, aber besser]
+
+--
+
+.hero[Less, but better]
+
+---
+background-image: url(images/dieterlighter.jpg)
+---
+background-image: url(images/dietershelf.jpg)
+---
+background-image: url(images/dietercalc.jpg)
+---
+background-image: url(images/dietercalc2.png)
+---
+background-image: url(images/ivedieter.png)
+---
+background-image: url(images/ivedieter2.png)
+---
+background-image: url(images/skeuo.jpg)
+---
+class: center, middle
+background-image: url(images/dieter.jpg)
+
+--
+
+.hero[Design Principles]
+
+---
+background-image: url(images/dieter2.png)
+
+---
+class: center, middle
+background-image: url(images/dieter10.png)
+
+---
+class: center, middle
+# Good Design...
+
+# Is innovative
+### The possibilities for progression are not, by any means, exhausted. Technological development is always offering new opportunities for original designs. But imaginative design always develops in tandem with improving technology, and can never be an end in itself.
+---
+
+class: center, middle
+# Good Design...
+
+# Makes a product useful
+### A product is bought to be used. It has to satisfy not only functional, but also psychological and aesthetic criteria. Good design emphasizes the usefulness of a product whilst disregarding anything that could detract from it.
+---
+class: center, middle
+# Good Design...
+
+# Is aesthetic
+### The aesthetic quality of a product is integral to its usefulness because products are used every day and have an effect on people and their well-being. Only well-executed objects can be beautiful.
+---
+class: center, middle
+# Good Design...
+
+# Makes a product understandable
+### It clarifies the product’s structure. Better still, it can make the product clearly express its function by making use of the user's intuition. At best, it is self-explanatory.
+
+---
+class: center, middle
+# Good Design...
+
+# Is unobtrusive
+### Products fulfilling a purpose are like tools. They are neither decorative objects nor works of art. Their design should therefore be both neutral and restrained, to leave room for the user's self-expression.
+---
+class: center, middle
+# Good Design...
+
+# Is honest 
+### It does not make a product appear more innovative, powerful or valuable than it really is. It does not attempt to manipulate the consumer with promises that cannot be kept.
+---
+class: center, middle
+# Good Design...
+
+# Is long-lasting
+### It avoids being fashionable and therefore never appears antiquated. Unlike fashionable design, it lasts many years – even in today's throwaway society.
+---
+class: center, middle
+# Good Design...
+
+# Is thorough down to the last detail
+### Nothing must be arbitrary or left to chance. Care and accuracy in the design process show respect towards the consumer.
+---
+class: center, middle
+# Good Design...
+
+# Is environmentally friendly
+### Design makes an important contribution to the preservation of the environment. It conserves resources and minimizes physical and visual pollution throughout the lifecycle of the product.
+---
+class: center, middle
+# Good Design...
+
+# Is as little design as possible
+### **Less, but better** – because it concentrates on the essential aspects, and the products are not burdened with non-essentials. Back to purity, back to simplicity.
+---
+class: center, middle
+background-image: url(images/dieter.jpg)
+
+.hero[Stop thinking of yourself as a coder]
+---
+class: center, middle
+background-image: url(images/dieter.jpg)
+.hero[Start thinking of yourself as a designer]
+
+---
+background-image: url(images/go-mascot.svg)
+class: center, middle
+--
+.hero[Golang]
+
+---
+# Three friends at Google in 2008
+## Robert Griesemer, Rob Pike, and Ken Thompson
+
+--
+
+## "What should a modern, practical programming language look like?"
+
+--
+
+## Consensus-driven: A feature was accepted only when all the three authors agreed it necessary.
+## Most proposed changes were rejected.
+---
+background-image: url(images/syslangs.png)
+---
+background-image: url(images/pike.jpeg)
+---
+## Back around September 2007, I was doing some minor but central work on an enormous Google C++ program, one you've all interacted with, and my compilations were taking about 45 minutes on our huge distributed compile cluster. An announcement came around that there was going to be a talk presented by a couple of Google employees serving on the C++ standards committee. They were going to tell us what was coming in C++11.
+
+## - Rob Pike, 2012
+---
+background-image: url(images/compiling.png)
+---
+## In the span of an hour at that talk we heard about something like 35 new features that were being planned. In fact there were many more, but only 35 were described in the talk.
+
+## At this point I asked myself a question: Did the C++ committee really believe that was wrong with C++ was that it didn't have enough features? Surely, it would be a greater achievement to simplify the language rather than to add to it.
+
+## - Rob Pike, 2012
+---
+class: center, middle
+# "Do you think less is more, or less is less?"
+
+# - Rob Pike
+
+---
+class: center, middle
+# "Such is modern computing: everything simple is made too complicated because it's easy to fiddle with; everything complicated stays complicated because it's hard to fix."
+
+# - Rob Pike
+---
+# Why Go?
+
+# A response to Google’s internal needs:
+
+## efficient large scale programming
+## speed of compilation
+## distributed systems
+## multicore, networked hardware
+## ease of cognition
+---
+background-image: url(images/multicore_crisis.png)
+---
+# Golang Design Principles
+
+## Simple: concepts are easy to understand
+## Orthogonal: concepts mix cleanly and easy to predict what happens
+## Succinct: no need to predeclare every intention
+## Safe: misbehavior should be detected
+
+# These combine to give expressiveness.
+---
+background-image: url(images/goemail.png)
+---
+## "What if Go has been open source from day one?"
+# "It may have been easier for the public to understand the project."
+
+--
+
+## "But it's not that simple:"
+# "Ideas are fragile in their early stages; they need to be nurtured before exposed to the world."
+
+---
+background-image: url(images/gorelease.png)
+---
+# What is Go?
+
+## Go is a new, general-purpose programming language:
+### Compiled
+### Statically typed
+### Concurrent
+### Simple
+### Productive
+
+---
+# What is Go?
+
+## "Go is a wise, clean, insightful, fresh thinking approach to the greatest-hits subset of the well understood." - Michael T. Jones
+---
+## Go is about composition
+
+## Go is Object Oriented, but not in the usual way:
+
+--
+
+# no classes (methods may be declared on any type)
+
+--
+
+# no subtype inheritance (no class inheritance)
+
+--
+
+## The result: simple pieces connected by small interfaces.
+
+---
+class: center, middle
+# "Object-oriented design is the roman numerals of computing." - Rob Pike
+
+---
+class: center
+background-image: url(images/keywords.png)
+# Go is about simplicity
+---
+# Go is about concurrency
+## Go provides CSP-like concurrency primitives.
+
+--
+
+# lightweight threads (goroutines)
+# typed thread-safe communication and synchronization (channels)
+--
+
+# The result: comprehensible concurrent code.
+
+---
+class: center, middle
+# "There's nothing in computing that can't be broken by another level of indirection." - Rob Pike
+---
+class: center, middle
+#    Changes to the Golang language since 2009
+
+--
+
+## None.
+
+---
+class: center, middle
+#    Changes to the Golang language since 2009
+
+## None.
+
+## This is a feature!
+
+---
+background-image: url(images/gohater.png)
+
+---
+## The key point here is our programmers are Googlers, they’re not researchers. They’re typically, fairly young, fresh out of school, probably learned Java, maybe learned C or C++, probably learned Python. They’re not capable of understanding a brilliant language, but we want to use them to build good software. So, the language that we give them has to be easy for them to understand and easy to adopt.
+
+## - Rob Pike
+---
+## It must be familiar, roughly C-like. Programmers working at Google are early in their careers and are most familiar with procedural languages, particularly from the C family. The need to get programmers productive quickly in a new language means that the language cannot be too radical.
+
+## - Rob Pike
+---
+# Hello World
+```
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, go")
+}
+```
+
+--
+
+## Run it:
+
+```
+$ go run hello.go
+```
+
+---
+# Hello Outside World
+```
+package main
+
+import (
+    "fmt"
+    "log"
+    "net"
+)
+
+const listenAddr = "localhost:4000"
+
+func main() {
+    l, err := net.Listen("tcp", listenAddr)
+    if err != nil {
+        log.Fatal(err)
+    }
+    for {
+        c, err := l.Accept()
+        if err != nil {
+            log.Fatal(err)
+        }
+        fmt.Fprintln(c, "Hello!")
+        c.Close()
+    }
+}
+
+```
+---
+## Go has native support for concurrent operations in the CSP tradition.
+## Two styles of concurrency exist: deterministic (well-defined ordering) and non-deterministic (mutual exclusion but order undefined).
+## Go's goroutines and channels promote deterministic concurrency (e.g. channels with one sender, one receiver), which is easier to reason about.
+## Simpler for the programmer!
+
+---
+# An echo server
+```
+package main
+
+import (
+    "io"
+    "log"
+    "net"
+)
+
+const listenAddr = "localhost:4000"
+
+func main() {
+    l, err := net.Listen("tcp", listenAddr)
+    if err != nil {
+        log.Fatal(err)
+    }
+    for {
+        c, err := l.Accept()
+        if err != nil {
+            log.Fatal(err)
+        }
+        io.Copy(c, c)
+    }
+}
+```
+
+---
+# A concurrent echo server
+```
+package main
+
+import (
+    "io"
+    "log"
+    "net"
+)
+
+const listenAddr = "localhost:4000"
+
+func main() {
+    l, err := net.Listen("tcp", listenAddr)
+    if err != nil {
+        log.Fatal(err)
+    }
+    for {
+        c, err := l.Accept()
+        if err != nil {
+            log.Fatal(err)
+        }
+        go io.Copy(c, c)
+    }
+}
+```
+
+---
+class: center, middle
+# Next Week:
+# Successful Open Source Projects
+# Open Source Licensing *Special Guest Speaker* Jason Carolan
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
