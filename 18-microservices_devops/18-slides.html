@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today:
+
+## More Microservices & Best Practices
+
+---
+background-image: url(images/hsclouds.jpg)
+---
+background-image: url(images/hsclouds2.png)
+---
+background-image: url(images/azureip.png)
+---
+background-image: url(images/azureip2.png)
+---
+background-image: url(images/azureip3.png)
+
+
+---
+
+# "Collecting & Presenting Temporal-Based Action Information"
+
+--
+
+# "Additional Content Based on Intended Travel Destination"
+
+--
+
+# "Client Health Validation Using Historical Data"
+
+---
+class: center
+# Conway's Law
+
+--
+
+![](images/kac.png)
+
+---
+background-image: url(images/conway1.png)
+
+---
+## Conway's law ... is a consequence of the fact that two software modules A and B cannot interface correctly with each other unless the designer and implementer of A communicates with the designer and implementer of B. 
+
+## Thus the interface structure of a software system necessarily will show a congruence with the social structure of the organization that produced it. - Wikipedia
+---
+class: center, middle
+
+# Because the design that occurs first is almost never the best possible, the prevailing system concept may need to change. Therefore, flexibility of organization is important to effective design. - Fred Brooks
+
+---
+background-image: url(images/micro0.png)
+---
+background-image: url(images/micro1.jpg)
+---
+background-image: url(images/micro3.png)
+---
+class: center, middle
+
+# A microservices architecture is a service-oriented architecture composed of loosely coupled elements that have bounded contexts.  - Adrian Cockcroft
+
+---
+background-image: url(images/micro2.png)
+
+---
+# Microservices Philosophy
+
+### Each single-function microservice has one action.
+### A small set of data and UI elements is involved.
+### One developer, or a small team, independently produces a microservice.
+### Each microservice is its own build, to avoid trunk conflict.
+### The business logic is stateless.
+### New functions are added swiftly, but old ones are retired slowly.
+
+---
+# Microservices Best Practices
+
+## Create a Separate Data Store for Each Microservice
+## Keep Code at a Similar Level of Maturity
+## Do a Separate Build for Each Microservice
+## Deploy in Containers
+## Treat Servers as Stateless
+
+---
+### "Jeff Bezos is an infamous micro-manager. He micro-manages every single pixel of Amazon’s retail site. He hired Larry Tesler, Apple’s Chief Scientist and probably the very most famous and respected human-computer interaction expert in the entire world, and then ignored every damn thing Larry said for three years until Larry finally — wisely — left the company. Larry would do these big usability studies and demonstrate beyond any shred of doubt that nobody can understand that frigging website, but Bezos just couldn’t let go of those pixels, all those millions of semantics-packed pixels on the landing page. They were like millions of his own precious children. So they’re all still there, and Larry is not."
+---
+background-image: url(images/amzn0.png)
+---
+background-image: url(images/amzn1.png)
+---
+background-image: url(images/amzn2.png)
+
+---
+# Jeff Bezos Mandate, 2002
+
+# 1.  All teams will henceforth expose their data and functionality through service interfaces.
+---
+# Jeff Bezos Mandate, 2002
+# 2. Teams must communicate with each other through these interfaces.
+---
+# Jeff Bezos Mandate, 2002
+# 3. There will be no other form of interprocess communication allowed: no direct linking, no direct reads of another team's data store, no shared-memory model, no back-doors whatsoever. The only communication allowed is via service interface calls over the network.
+---
+# Jeff Bezos Mandate, 2002
+
+# 4. It doesn't matter what technology they use. HTTP, Corba, Pubsub, custom protocols -- doesn't matter. Bezos doesn't care.
+---
+# Jeff Bezos Mandate, 2002
+# 5. All service interfaces, without exception, must be designed from the ground up to be externalizable. That is to say, the team must plan and design to be able to expose the interface to developers in the outside world. No exceptions.
+---
+# Jeff Bezos Mandate, 2002
+# 6. Anyone who doesn't do this will be fired.
+---
+# Jeff Bezos Mandate, 2002
+# 7. Thank you; have a nice day!
+
+---
+# "Ha, ha! You 150-odd ex-Amazon folks here will of course realize immediately that #7 was a little joke I threw in, because Bezos most definitely does not give a shit about your day." - Staci D. Kramer
+
+---
+# Steve Yegge Google Platforms Rant
+
+### The Golden Rule of Platforms, "Eat Your Own Dogfood", can be rephrased as "Start with a Platform, and Then Use it for Everything." 
+### You can't cheat!
+### You can't have secret back doors for internal apps to get special priority access, not for ANY reason.
+### You need to solve the hard problems up front.
+### I'm not saying it's too late for us, but the longer we wait, the closer we get to being Too Late.
+
+---
+# David L. Parnas on Modularization, 1972
+
+### To a man with a hammer, everything looks like a nail.
+### To a Computer Scientist, everything looks like a language design problem.
+### Languages and compilers are, in their opinion, the only way to drive an idea into practice.
+### My work clearly treated modularisation as a design issue, not a language issue.
+### Although some tools could make the job easier, no special tools were needed to use the principal, just discipline and skill.
+
+---
+### "The architecture for AOL.com is in it’s 5th generation.  It has essentially been rebuilt from scratch 5 times over two decades.  The current architecture was designed 6 years ago. Pieces have been upgraded and new components have been added along the way, but the overall design remains largely intact.  The code, tools, development and deployment processes are highly tuned over 6 years of continual improvement, making the AOL.com architecture battle tested and very stable." - Dave Hagler Systems Architect at AOL
+
+---
+background-image: url(images/chroot.png)
+---
+background-image: url(images/cont1.png)
+---
+background-image: url(images/cont2.png)
+---
+# Linux Container Ingredients
+
+# 1. Control Groups
+# 2. Namespaces
+# 3. IPtables
+# 4. CoW Filesystem 
+
+---
+# Control Groups
+
+# cgroups is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network, etc.) of a collection of processes.  Merged into Linux kernel mainline in kernel version 2.6.24, which was released in January 2008.
+
+---
+background-image: url(images/cgroups.png)
+---
+background-image: url(images/cgroups2.png)
+---
+![](images/cgroups3.png)
+---
+background-image: url(images/cgroups4.png)
+---
+background-image: url(images/cgroups5.png)
+---
+class: center, middle
+
+# docker run -it --cpus=".5" ubuntu /bin/bash
+---
+# Namespaces
+
+## Namespaces are a feature of the Linux kernel that isolates and virtualizes system resources of a collection of processes
+
+--
+
+#### Mount points
+#### Process IDs (PID)
+#### Network (plus iptables, plus routing)
+#### IPC
+#### User IDs
+
+---
+class: center, middle
+# COW
+
+---
+background-image: url(images/cow.png)
+---
+background-image: url(images/cont3.png)
+---
+background-image: url(images/fork0.png)
+---
+# Docker Manifesto
+## Docker is a runtime for Standard Containers
+
+--
+
+## STANDARD OPERATIONS
+## CONTENT-AGNOSTIC
+## INFRASTRUCTURE-AGNOSTIC
+## DESIGNED FOR AUTOMATION
+## INDUSTRIAL-GRADE DELIVERY
+
+---
+background-image: url(images/fork1.png)
+---
+background-image: url(images/fork3.png)
+---
+## When Docker was first introduced to us in early 2013, the idea of a “standard container” was striking and immediately attractive: a simple component, a composable unit, that could be used in a variety of systems.
+
+## Unfortunately, a simple re-usable component is not how things are playing out. 
+
+---
+
+## Docker now is building tools for launching cloud servers, systems for clustering, and a wide range of functions: building images, running images, uploading, downloading, and eventually even overlay networking, all compiled into one monolithic binary running primarily as root on your server. 
+
+--
+
+## We should stop talking about Docker containers, and start talking about the Docker Platform. It is not becoming the simple composable building block we had envisioned.
+
+---
+background-image: url(images/fork2.png)
+---
+background-image: url(images/fork4.png)
+---
+background-image: url(images/fork5.png)
+---
+background-image: url(images/fork6.png)
+
+---
+## On the server, a container engine then downloads the image, verifies the image integrity, and executes the container process. Ideally, the container engine does this in the simplest possible manner while meeting the expectations of the production cloud native user.
+## The rkt tool is laser focused on solving these problems and has excited the market, leading to various integrations in cloud native orchestration systems like Kubernetes, Mesos, Nomad, and many organizations' bespoke systems.
+---
+background-image: url(images/coreos1.svg)
+---
+background-image: url(images/coreos2.svg)
+---
+background-image: url(images/coreos3.png)
+---
+# CoreOS Disk Layout
+
+### All stateful data, including container images, is stored within the read/write filesystem mounted at /. On first boot, the ROOT partition and filesystem will expand to fill any remaining free space at the end of the drive.
+
+### The data stored on the root partition isn't manipulated by the update process. In return, we do our best to prevent you from modifying the data in /usr.
+
+### Due to the unique disk layout of Container Linux, an rm -rf / is an un-supported but valid operation to do a "factory reset". The machine should boot and operate normally afterwards.
+
+---
+background-image: url(images/ranch1.png)
+---
+background-image: url(images/ranch2.png)
+
+---
+# Essentials (Homework 3)
+
+## Meaningful Name
+## Repository Description
+## README.md
+## LICENSE
+## CONTRIBUTING
+
+---
+# Choosing the right name
+
+## Pick a name that is easy to remember and, ideally, gives some idea of what the project does.
+## Consider clarity above all.
+## Avoiding name conflicts
+
+---
+background-image: url(images/gh_name.png)
+---
+background-image: url(images/gh_rm0.png)
+---
+# README.md
+
+# "READMEs do more than explain how to use your project. They also explain why your project matters, and what your users can do with it."
+
+---
+# In your README, try to answer the following questions
+
+## What does this project do?
+## Why is this project useful?
+## How do I get started?
+## Where can I get more help, if I need it?
+
+---
+background-image: url(images/gh_rm.png)
+---
+background-image: url(images/gh_rm1.png)
+---
+background-image: url(images/gh_lic3.png)
+---
+background-image: url(images/gh_lic.png)
+---
+background-image: url(images/gh_lic2.png)
+
+---
+# CONTRIBUTING
+
+# "A CONTRIBUTING file tells your audience how to participate in your project."
+
+## How to file a bug report (try using issue and pull request templates)
+## How to suggest a new feature
+## How to set up your environment and run tests
+
+---
+# CONTRIBUTING
+
+## The types of contributions you’re looking for
+## Your roadmap or vision for the project
+## How contributors should (or should not) get in touch with you
+
+---
+![](images/contrib.jpg)
+---
+# Ground Rules
+
+### How a contribution is reviewed and accepted (Do they need tests? An issue template?)
+### The types of contributions you’ll accept (Do you only want help with a certain part of your code?)
+### When it’s appropriate to follow up (ex. “You can expect a response from a maintainer within 7 days. If you haven’t heard anything by then, feel free to ping the thread.”)
+### How much time you spend on the project (ex. “We only spend about 5 hours per week on this project”)
+
+---
+background-image: url(images/contrib1.png)
+---
+background-image: url(images/contrib2.png)
+---
+background-image: url(images/contrib3.png)
+---
+background-image: url(images/contrib4.png)
+---
+class: center, middle
+# “I choose a lazy person to do a hard job, because a lazy person will find an easy way to do it." -- Bill Gates
+
+---
+background-image: url(images/mm1.png)
+
+---
+background-image: url(images/mm2.png)
+---
+# Make People Feel Welcome
+
+### When someone new lands on your project, thank them for their interest! It only takes one negative experience to make someone not want to come back.
+### Be responsive. If you don’t respond to their issue for a month, chances are, they’ve already forgotten about your project.
+### Be open-minded about the types of contributions you’ll accept. Many contributors start with a bug report or small fix. There are many ways to contribute to a project. Let people help how they want to help.
+---
+background-image: url(images/mm3.png)
+---
+background-image: url(images/mm4.png)
+---
+background-image: url(images/mm5.png)
+---
+background-image: url(images/mm6.png)
+---
+background-image: url(images/gh_coc.png)
+---
+background-image: url(images/gh_coc1.png)
+---
+background-image: url(images/gh_coc2.png)
+---
+background-image: url(images/gh_coc3.png)
+
+---
+background-image: url(images/gh_write.png)
+
+---
+# Essentials (Homework 3)
+
+## Meaningful Name
+## Repository Description
+## README.md
+## LICENSE
+## CONTRIBUTING
+
+---
+class: center, middle
+
+# Homework 3: Due 4/10
+# Wednesday: DevOps & Automation 
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
