@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today: ChatOps, SRE
+
+---
+background-image: url(images/goog0.png)
+---
+background-image: url(images/goog1.png)
+---
+background-image: url(images/goog2.png)
+---
+background-image: url(images/goog3.png)
+---
+background-image: url(images/goog4.png)
+---
+background-image: url(images/goog5.png)
+---
+background-image: url(images/goog6.png)
+---
+
+background-image: url(images/chatops1.png)
+---
+background-image: url(images/slack.png)
+---
+background-image: url(images/irc.jpg)
+---
+background-image: url(images/vops.png)
+---
+## ChatOps is a collaboration model that connects people, tools, process, and automation into a transparent workflow. This flow connects the work needed, the work happening, and the work done in a persistent location staffed by the people, bots, and related tools. The transparency tightens the feedback loop, improves information sharing, and enhances team collaboration, not to mention team culture and cross-training.
+---
+background-image: url(images/chatops3.png)
+---
+background-image: url(images/chatops4.png)
+---
+background-image: url(images/chatops5.png)
+---
+background-image: url(images/chatops6.png)
+---
+background-image: url(images/chatops2.png)
+---
+background-image: url(images/lita.png)
+---
+background-image: url(images/errbot.png)
+---
+# Next 6 slides by Jesse Newland @GitHub
+
+## https://speakerdeck.com/jnewland/chatops-at-github
+---
+background-image: url(images/chatops7.png)
+---
+background-image: url(images/chatops8.png)
+---
+background-image: url(images/chatops9.png)
+---
+background-image: url(images/chatops10.png)
+---
+background-image: url(images/chatops11.png)
+---
+background-image: url(images/chatops12.png)
+---
+background-image: url(images/chat0.png)
+---
+# ChatOps combines a powerful way to get things done with a more human way of working. 
+---
+background-image: url(images/chatops13.png)
+
+---
+background-image: url(images/sre0.png)
+---
+# What is SRE?
+
+## SRE is what you get when you treat operations as if it’s a software problem. Our mission is to protect, provide for, and progress the software and systems behind all of Google’s public services — Google Search, Ads, Gmail, Android, YouTube, and AppEngine, to name just a few — with an ever-watchful eye on their availability, latency, performance, and capacity.
+---
+## Our job is a combination not found elsewhere in the industry.
+---
+## Like traditional operations groups, we keep important, revenue-critical systems up and running despite hurricanes, bandwidth outages, and configuration errors. 
+---
+## Unlike traditional operations groups, we view software as the primary tool through which our systems are managed, maintained, and minded; to that end, we have the source-level access and moral authority required to fix, extend and scale code to keep it working, harden it against the vagaries of the Internet, and develop our own planet-scale platforms.
+---
+## We hire people from both systems and software backgrounds, and an informed mix is even better. We own those products in production. We drive reliability and performance across massive scale by mastering the full depth of the stack. We literally do learn something new every day – usually surprising things.
+
+---
+# Typically we hire about a 50-50 mix of people who have more of a software background and people who have more of a systems background. It seems to be a really good mix. - Ben Treynor
+---
+# In Google SRE, we pay close attention to the promotion rates by level for everybody irrespective of systems or software background, and compare that to the overall Eng vs Eng SWE promotion rates to make sure that they are statistically identical. And they are.
+---
+# DevOps ~= SRE
+
+## The incentive of the development team is to get features launched and to get users to adopt the product. That’s it! … the incentives of a team with operational duties is to ensure that the thing doesn’t blow up on their watch. So these two would certainly seem to be the tension.
+---
+# Flight Example
+
+## For those who haven’t been in the trenches of SRE for the past decade, an analogy between how SRE thinks about complex systems and how the aircraft industry has approached plane flight is useful in conceptualizing how SRE has evolved and matured over time. While the stakes of failure between the two industries are very different, certain core similarities hold true.
+
+---
+## How has every other element of the flight experience—safety, capacity, speed, and reliability—scaled up so beautifully, while there are still only two pilots? The answer to this question is a great parallel to how Google approaches the enormous, fantastically complex systems that SRE runs. 
+
+---
+### The interfaces to the plane’s operating systems are well thought out and approachable enough that learning how to pilot them in normal conditions is not an insurmountable task. Yet these interfaces also provide enough flexibility, and the people operating them are sufficiently trained, that responses to emergencies are robust and quick. The cockpit was designed by people who understand complex systems and how to present them to humans in a way that’s both consumable and scalable. The systems underlying the cockpit have all the same properties discussed in this book: availability, performance optimization, change management, monitoring and alerting, capacity planning, and emergency response.
+
+
+---
+### Ultimately, SRE’s goal is to follow a similar course. An SRE team should be as compact as possible and operate at a high level of abstraction, relying upon lots of backup systems as failsafes and thoughtful APIs to communicate with the systems. At the same time, the SRE team should also have comprehensive knowledge of the systems—how they operate, how they fail, and how to respond to failures—that comes from operating them day-to-day.
+
+---
+# Embracing Risk
+
+# You might expect Google to try to build 100% reliable services—ones that never fail. It turns out that past a certain point, however, increasing reliability is worse for a service (and its users) rather than better!
+
+---
+# Embracing Risk
+
+# Extreme reliability comes at a cost: maximizing stability limits how fast new features can be developed and how quickly products can be delivered to users, and dramatically increases their cost, which in turn reduces the numbers of features a team can afford to offer.
+
+---
+# Managing Risk
+
+### Unreliable systems can quickly erode users’ confidence, so we want to reduce the chance of system failure. However, experience shows that as we build systems, cost does not increase linearly as reliability increments—an incremental improvement in reliability may cost 100x more than the previous increment.
+
+--
+
+## The costliness has two dimensions: The cost of redundant machine/compute resources & The opportunity cost
+
+---
+# In SRE, we manage service reliability largely by managing risk. We conceptualize risk as a continuum. We give equal importance to figuring out how to engineer greater reliability into Google systems and identifying the appropriate level of tolerance for the services we run.
+
+---
+# When we set an availability target of 99.99%,we want to exceed it, but not by much: that would waste opportunities to add features to the system, clean up technical debt, or reduce its operational costs. In a sense, we view the availability target as both a minimum and a maximum. The key advantage of this framing is that it unlocks explicit, thoughtful risktaking.
+
+---
+# SLOs
+
+### An SLI is a service level indicator—a carefully defined quantitative measure of some aspect of the level of service that is provided.
+
+--
+
+### An SLO is a service level objective: a target value or range of values for a service level that is measured by an SLI. A natural structure for SLOs is thus SLI ≤ target, or lower bound ≤ SLI ≤ upper bound.
+
+--
+
+### SLAs are service level agreements: an explicit or implicit contract with your users that includes consequences of meeting (or missing) the SLOs they contain.
+
+---
+background-image: url(images/chub.png)
+
+
+---
+# SLOs: Time-based availability
+
+![](images/eqn-4.png)
+
+---
+background-image: url(images/avail.png)
+
+---
+# SLOs: Aggregate availability
+
+![](images/eqn-5.png)
+
+---
+# Define SLOs Like a User
+
+## Measure availability and performance in terms that matter to an end user.
+
+--
+
+### "Measuring error rates and latency at the Gmail client, rather than at the server, resulted in a substantial reduction in our assessment of Gmail availability, and prompted changes to both Gmail client and server code. The result was that Gmail went from about 99.0% available to over 99.9% available in a few years."
+
+
+---
+## Identifying the Risk Tolerance of Consumer Services
+
+--
+
+## What level of availability is required?
+## Do different types of failures have different effects on the service?
+## How can we use the service cost to help locate a service on the risk continuum?
+## What other service metrics are important to take into account?
+
+---
+## Target level of availability
+
+--
+
+### What level of service will the users expect?
+### Does this service tie directly to revenue (either our revenue, or our customers’ revenue)?
+### Is this a paid service, or is it free?
+### If there are competitors in the marketplace, what level of service do those competitors provide?
+### Is this service targeted at consumers, or at enterprises?
+
+---
+# Cost
+
+## If we were to build and operate these systems at one more nine of availability, what would our incremental increase in revenue be?
+## Does this additional revenue offset the cost of reaching that level of reliability?
+
+--
+
+* Proposed improvement in availability target: 99.9% → 99.99%
+* Proposed increase in availability: 0.09%
+* Service revenue: $1M
+* Value of improved availability: $1M * 0.0009 = $900
+
+---
+## If failures are being measured from the end-user perspective and it is possible to drive the error rate for the service below the background error rate, those errors will fall within the noise for a given user’s Internet connection. While there are significant differences between ISPs and protocols (e.g., TCP versus UDP, IPv4 versus IPv6), we’ve measured the typical background error rate for ISPs as falling between 0.01% and 1%.
+
+---
+# Error Budgets: addressing a natural devops tension
+
+## Software fault tolerance: How hardened do we make the software to unexpected events? Too little, and we have a brittle, unusable product. Too much, and we have a product no one wants to use (but that runs very stably).
+
+---
+# Error Budgets: addressing a natural devops tension
+## Testing: Again, not enough testing and you have embarrassing outages, privacy data leaks, or a number of other press-worthy events. Too much testing, and you might lose your market.
+---
+# Error Budgets: addressing a natural devops tension
+## Push frequency: Every push is risky. How much should we work on reducing that risk, versus doing other work?
+---
+# Error Budgets: addressing a natural devops tension
+## Canary duration and size: It’s a best practice to test a new release on some small subset of a typical workload, a practice often called canarying. How long do we wait, and how big is the canary?
+
+---
+# Error Budgets: addressing a natural devops tension
+
+### Product Management defines an SLO, which sets an expectation of how much uptime the service should have per quarter.
+### The actual uptime is measured by a neutral third party: our monitoring system.
+### The difference between these two numbers is the "budget" of how much "unreliability" is remaining for the quarter.
+### As long as the uptime measured is above the SLO—in other words, as long as there is error budget remaining—new releases can be pushed.
+---
+# Error Budgets
+
+## Error budgets eliminate the structural tension that might otherwise develop between SRE and product development teams by giving them a common, data-driven mechanism for assessing launch risk. They also give both SRE and product development teams a common goal of developing practices and technology that allow faster innovation and more launches without "blowing the budget."
+
+---
+# Error Budgets: Summary
+
+## Managing service reliability is largely about managing risk, and managing risk can be costly.
+## 100% is probably never the right reliability target: not only is it impossible to achieve, it’s typically more reliability than a service’s users want or notice. Match the profile of the service to the risk the business is willing to take.
+
+---
+# Error Budgets: Summary
+## An error budget aligns incentives and emphasizes joint ownership between SRE and product development. Error budgets make it easier to decide the rate of releases and to effectively defuse discussions about outages with stakeholders, and allows multiple teams to reach the same conclusion about production risk without rancor.
+
+---
+# Progressive Rollouts
+
+## Nonemergency rollouts must proceed in stages. Both configuration and binary changes introduce risk, and you mitigate this risk by applying the change to small fractions of traffic and capacity at one time.
+
+---
+# Progressive Rollouts
+## The size of your service or rollout, as well as your risk profile, will inform the percentages of production capacity to which the rollout is pushed, and the appropriate time frame between stages. It’s also a good idea to perform different stages in different geographies, in order to detect problems related to diurnal traffic cycles and geographical traffic mix differences.
+
+---
+# Progressive Rollouts
+## Rollouts should be supervised. To ensure that nothing unexpected is occurring during the rollout, it must be monitored either by the engineer performing the rollout stage or—preferably—a demonstrably reliable monitoring system. If unexpected behavior is detected, roll back first and diagnose afterward in order to minimize Mean Time to Recovery.
+
+
+---
+background-image: url(images/fowler0.png)
+---
+background-image: url(images/fowler1.png)
+---
+background-image: url(images/fowler2.png)
+---
+background-image: url(images/fowler3.png)
+---
+background-image: url(images/fowler4.png)
+
+---
+background-image: url(images/fowler5.png)
+---
+# A Caution About Feature Flags
+---
+background-image: url(images/knight0.png)
+---
+## The update to SMARS was intended to replace old, unused code referred to as “Power Peg” – functionality that Knight hadn’t used in 8-years (why code that had been dead for 8-years was still present in the code base is a mystery, but that’s not the point). The code that that was updated repurposed an old flag that was used to activate the Power Peg functionality. The code was thoroughly tested and proven to work correctly and reliably.
+
+---
+background-image: url(images/knight1.png)
+---
+### During the 45-minutes of Hell that Knight experienced they attempted several counter measures to try and stop the erroneous trades. There was no kill-switch (and no documented procedures for how to react) so they were left trying to diagnose the issue in a live trading environment where 8 million shares were being traded every minute . Since they were unable to determine what was causing the erroneous orders they reacted by uninstalling the new code from the servers it was deployed to correctly. In other words, they removed the working code and left the broken code. This only amplified the issues causing additional parent orders to activate the Power Peg code on all servers, not just the one that wasn’t deployed to correctly. Eventually they were able to stop the system – after 45 minutes of trading.
+
+---
+## In the first 45-minutes the market was open the Power Peg code received and processed 212 parent orders. As a result SMARS sent millions of child orders into the market resulting in 4 million transactions against 154 stocks for more than 397 million shares. For you stock market junkies this meant the Knight assumed approximately $3.5 billion net long positions in 80 stocks and $3.15 billion net short positions in 74 stocks. In laymen’s terms, Knight Capital Group realized a $460 million loss in 45-minutes.
+
+---
+background-image: url(images/ff.png)
+---
+
+# Homework Assignment Review
+
+#### H1: **Due:** May 1  
+Submit a PR to improve class slides.
+
+--
+
+#### H2: **Due:** March 6  
+Write a mission statement for your meaningful open source contribution. Use this [template](https://github.com/nmcclain/CSCI4830-009/blob/master/projects/TEMPLATE_STUDENTNAME_PROJECTNAME.md) and put your file in the projects folder.
+
+--
+
+#### H3: **Due:** April 10
+Create a public GitHub repository with proper open source setup:
+
+* Meaningful Name
+* Repository Description
+* README.md
+* LICENSE
+* CONTRIBUTING
+
+Option 1: Add these files to your class project repository (if you control it).
+Option 2: Create a "hello world" repository specifically for HW3 and HW4.
+
+
+---
+class: center, middle
+
+# Looking forward to **next** week...
+
+--
+
+# NEXT Wednesday, 4/12: No class
+
+--
+
+# Monday: Ingrid Alongi from Quick Left
+
+---
+background-image: url(images/ia.png)
+
+---
+class: center, middle
+
+# Wednesday: Testing & API Design
+
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
