@@ -14,3 +14,6 @@ I started this project for a class, but never got around to implementing the mor
 
 ## Why this contribution is meaningful to the project (1-3 sentences):
 The current status of the project is in need of some dire work. Any hours spent developing this project is a huge success. In this situation I plan on making useful progress toward a more working prototype.
+
+### Homework 3 repository Link:
+https://github.com/Moodiment/Byte-Me
