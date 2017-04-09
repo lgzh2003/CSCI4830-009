@@ -1,14 +1,14 @@
 # Student Name: Liangjun Song
-# Project Name: React
-# Project URL: https://github.com/facebook/react
+# Project Name: Seed-Grow
+# Project URL: https://github.com/LiangjunSong/Seed-Grow
 
 ## Planned contribution (1-3 sentences):
-The objective of my project is to fix the issues in React library or make contribution to the documentation.
+Building a open source npm package for developers to set up new node.js projects from the boilerplate. The package will be lightweight and easy to use. Developers can setup their new project within few seconds.
 
 ## Why this project is meaningful to me (1-3 sentences):
-I have been using react to build web applicatioin for a whole. Making a contibution to the project could help me understand the library better.
+It always took me some time to set up a new project. With this tiny usefull tool, I can initialize my project with few seconds.
 
 ## Why this contribution is meaningful to the project (1-3 sentences):
-React is a popular Javascript library and it has a lot of daily issues. Fixing those issues can help a lot of developers.
+To make developer life easier.
 
 *Please use the following file name format: projects/STUDENTNAME_PROJECTNAME.md*
