@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today: Testing & API Design
+
+---
+# From Student Side Project to Startup -- Paul Dornier, YC
+
+--
+
+## If you’re a student entrepreneur, turning a side project into a startup is one of the most important steps in your journey as a founder. Done well, this transition builds the determination and commitment that’s necessary to overcome the challenges of a startup that lie ahead. Done half-heartedly, the transition can be toxic for both the fledgling startup and the rest of your commitments.
+
+---
+# 1. Escape the Bliss of Side Project Land
+## Side projects are fun because you get to work on something in a blissful vacuum–no negative feedback or responsibilities. Going from a side project to a startup, however, means going from building something that interests you to building something people want.  **The best way to develop your side project into something people want is to talk to real users about what you’ve built.**
+???
+## hackathons, conferences, job fairs, & pitch competitions
+---
+# 2. Dream Bigger
+## Your side project probably started as something that you found interesting or amusing, not something that you thought could impact the world. But turning your side project into a startup means figuring out why your creation really matters, and a larger vision is a key part of that.
+???
+# FEEL:  Airbnb is a great example of this. Meeting an Airbnb host and staying in their place makes guests feel at home in foreign places. The company’s vision of helping their users “Belong Anywhere” captures this feeling in a powerful way.
+
+---
+# 3. Commit Real Amounts of Time
+### The final step is the hardest but also the most important. If you’re like most busy students, you’re probably spending about 90% of your time on some combination of academics, athletics, extracurriculars, and social activities, leaving 10% for your side project. But for your side project to even have a chance of becoming a successful startup, you’ll have to flip that ratio and spend almost all of your time on your company.
+
+---
+## The right time to turn your side project into a startup is simply when the difficulty of the three steps described above still can’t deter you from making the leap. In a How to Start a Startup lecture, Paul Graham explains that you should either “be a real student and not start a startup or start a real startup and not be a student”. The choice to make the leap or not is a binary one, and your gut is probably already telling you your answer.
+
+---
+
+background-image: url(images/xp0.png)
+???
+# 1999
+---
+# Extreme Programming Values
+## Simplicity: We will do what is needed and asked for, but no more. This will maximize the value created for the investment made to date. We will take small simple steps to our goal and mitigate failures as they happen. We will create something we are proud of and maintain it long term for reasonable costs. 
+---
+# Extreme Programming Values
+## Communication: Everyone is part of the team and we communicate face to face daily. We will work together on everything from requirements to code. We will create the best solution to our problem that we can together.
+---
+# Extreme Programming Values
+## Feedback: We will take every iteration commitment seriously by delivering working software. We demonstrate our software early and often then listen carefully and make any changes needed. We will talk about the project and adapt our process to it, not the other way around.
+---
+# Extreme Programming Values
+## Respect: Everyone gives and feels the respect they deserve as a valued team member. Everyone contributes value even if it's simply enthusiasm. Developers respect the expertise of the customers and vice versa. Management respects our right to accept responsibility and receive authority over our own work.
+---
+# Extreme Programming Values
+## Courage: We will tell the truth about progress and estimates. We don't document excuses for failure because we plan to succeed. We don't fear anything because no one ever works alone. We will adapt to changes when ever they happen.
+---
+background-image: url(images/xp1.png)
+???
+# Continuous integration avoids or detects compatibility problems early. Integration is a "pay me now or pay me more later" kind of activity. That is, if you integrate throughout the project in small amounts you will not find your self trying to integrate the system for weeks at the project's end while the deadline slips by. Always work in the context of the latest version of the system. XP Rules
+---
+background-image: url(images/xp2.png)
+---
+background-image: url(images/ci0.png)
+---
+### I vividly remember one of my first sightings of a large software project. I was taking a summer internship at a large English electronics company. My manager, part of the QA group, gave me a tour of a site and we entered a huge depressing warehouse stacked full with cubes. I was told that this project had been in development for a couple of years and was currently integrating, and had been integrating for several months. My guide told me that nobody really knew how long it would take to finish integrating. From this I learned a common story of software projects: integration is a long and unpredictable process. -- Martin Fowler
+---
+## Continuous Integration is a software development practice where members of a team integrate their work frequently, usually each person integrates at least daily - leading to multiple integrations per day. Each integration is verified by an automated build (including test) to detect integration errors as quickly as possible.
+---
+# Benefits of Continuous Integration
+
+## Reduced risk
+## Eliminate integration blind spot
+## Makes bugs easier to find and remove
+## Lower accumulation of bugs
+## Removes one of the biggest barriers to frequent deployment
+
+???
+# Broken Windows syndrome.
+---
+# Continuous Integration Practices
+## Maintain a Single Source Repository
+
+--
+
+### Although many teams use repositories a common mistake I see is that they don't put everything in the repository. If people use one they'll put code in there, but everything you need to do a build should be in there including: test scripts, properties files, database schema, install scripts, and third party libraries. The basic rule of thumb is that you should be able to walk up to the project with a virgin machine, do a checkout, and be able to fully build the system.
+---
+# Continuous Integration Practices
+## Maintain a Single Source Repository
+### This is a useful, nay essential, feature - but it's frequently overused and gets people into trouble. Keep your use of branches to a minimum. In particular have a mainline: a single branch of the project currently under development. Pretty much everyone should work off this mainline most of the time
+---
+# Continuous Integration Practices
+## Automate the Build
+
+--
+
+### A common mistake is not to include everything in the automated build. The build should include getting the database schema out of the repository and firing it up in the execution environment. I'll elaborate my earlier rule of thumb: anyone should be able to bring in a virgin machine, check the sources out of the repository, issue a single command, and have a running system on their machine.
+---
+# Continuous Integration Practices
+## Make Your Build Self-Testing
+### Traditionally a build means compiling, linking, and all the additional stuff required to get a program to execute. A program may run, but that doesn't mean it does the right thing. Modern statically typed languages can catch many bugs, but far more slip through that net.  A good way to catch bugs more quickly and efficiently is to include automated tests in the build process. 
+---
+# Continuous Integration Practices
+## Make Your Build Self-Testing
+### Of course you can't count on tests to find everything. As it's often been said: tests don't prove the absence of bugs. However perfection isn't the only point at which you get payback for a self-testing build. Imperfect tests, run frequently, are much better than perfect tests that are never written at all.
+---
+# Continuous Integration Practices
+## Everyone Commits To the Mainline Every Day
+### Integration is primarily about communication. Integration allows developers to tell other developers about the changes they have made. Frequent communication allows people to know quickly as changes develop.
+---
+# Continuous Integration Practices
+## Everyone Commits To the Mainline Every Day
+### The one prerequisite for a developer committing to the mainline is that they can correctly build their code. This, of course, includes passing the build tests. As with any commit cycle the developer first updates their working copy to match the mainline, resolves any conflicts with the mainline, then builds on their local machine. If the build passes, then they are free to commit to the mainline.
+---
+# Continuous Integration Practices
+## Everyone Commits To the Mainline Every Day
+### By doing this frequently, developers quickly find out if there's a conflict between two developers. The key to fixing problems quickly is finding them quickly. With developers committing every few hours a conflict can be detected within a few hours of it occurring, at that point not much has happened and it's easy to resolve. Conflicts that stay undetected for weeks can be very hard to resolve.
+---
+# Continuous Integration Practices
+## Every Commit Should Build the Mainline on an Integration Machine
+### Using daily commits, a team gets frequent tested builds. This ought to mean that the mainline stays in a healthy state. In practice, however, things still do go wrong. One reason is discipline, people not doing an update and build before they commit. Another is environmental differences between developers' machines.
+---
+# Continuous Integration Practices
+## Every Commit Should Build the Mainline on an Integration Machine
+### As a result you should ensure that regular builds happen on an integration machine and only if this integration build succeeds should the commit be considered to be done. Since the developer who commits is responsible for this, that developer needs to monitor the mainline build so they can fix it if it breaks. A corollary of this is that you shouldn't go home until the mainline build has passed with any commits you've added late in the day.
+---
+# Continuous Integration Practices
+## Fix Broken Builds Immediately
+### A key part of doing a continuous build is that if the mainline build fails, it needs to be fixed right away. The whole point of working with CI is that you're always developing on a known stable base. It's not a bad thing for the mainline build to break, although if it's happening all the time it suggests people aren't being careful enough about updating and building locally before a commit. When the mainline build does break, however, it's important that it gets fixed fast.
+
+--
+
+## "Nobody has a higher priority task than fixing the build" -- Kent Beck 
+---
+# Continuous Integration Practices
+## Keep the Build Fast
+### The whole point of Continuous Integration is to provide rapid feedback. Nothing sucks the blood of a CI activity more than a build that takes a long time.
+### Here I must admit a certain crotchety old guy amusement at what's considered to be a long build. Most of my colleagues consider a build that takes an hour to be totally unreasonable. I remember teams dreaming that they could get it so fast - and occasionally we still run into cases where it's very hard to get builds to that speed.
+---
+# Continuous Integration Practices
+## Keep the Build Fast
+### For most projects, however, the XP guideline of a ten minute build is perfectly within reason. It's worth putting in concentrated effort to make it happen, because every minute you reduce off the build time is a minute saved for each developer every time they commit. Since CI demands frequent commits, this adds up to a lot of time.
+???
+# More about build pipelines soon!
+---
+background-image: url(images/buck1.png)
+---
+background-image: url(images/buck2.png)
+---
+# Continuous Integration Practices
+## Test in a Clone of the Production Environment
+### The point of testing is to flush out, under controlled conditions, any problem that the system will have in production. A significant part of this is the environment within which the production system will run. If you test in a different environment, every difference results in a risk that what happens under test won't happen in production.  As a result you want to set up your test environment to be as exact a mimic of your production environment as possible. 
+---
+# Continuous Integration Practices
+## Make it Easy for Anyone to Get the Latest Executable
+## One of the most difficult parts of software development is making sure that you build the right software. We've found that it's very hard to specify what you want in advance and be correct; people find it much easier to see something that's not quite right and say how it needs to be changed. Agile development processes explicitly expect and take advantage of this part of human behavior. 
+???
+# 1997
+# To help make this work, anyone involved with a software project should be able to get the latest executable and be able to run it: for demonstrations, exploratory testing, or just to see what changed this week.
+---
+# Continuous Integration Practices
+## Everyone can see what's happening
+### Continuous Integration is all about communication, so you want to ensure that everyone can easily see the state of the system and the changes that have been made to it.  One of the most important things to communicate is the state of the mainline build.
+---
+# Continuous Integration Practices
+## Automate Deployment
+### To do Continuous Integration you need multiple environments, one to run commit tests, one or more to run secondary tests. Since you are moving executables between these environments multiple times a day, you'll want to do this automatically. So it's important to have scripts that will allow you to deploy the application into any environment easily.
+---
+# Introducing Continuous Integration
+# in Four Steps
+---
+# Introducing Continuous Integration
+## 1. Get the build automated.
+### Get everything you need into source control get it so that you can build the whole system with a single command. For many projects this is not a minor undertaking - yet it's essential for any of the other things to work. Initially you may only do build occasionally on demand, or just do an automated nightly build. While these aren't continuous integration an automated nightly build is a fine step on the way.
+---
+# Introducing Continuous Integration
+## 2. Introduce some automated testing into your build.
+### Try to identify the major areas where things go wrong and get automated tests to expose those failures. Particularly on an existing project it's hard to get a really good suite of tests going rapidly - it takes time to build tests up. You have to start somewhere though - all those cliches about Rome's build schedule apply.
+---
+# Introducing Continuous Integration
+## 3. Try to speed up the commit build.
+### Continuous Integration on a build of a few hours is better than nothing, but getting down to that magic ten minute number is much better. This usually requires some pretty serious surgery on your code base to do as you break dependencies on slow parts of the system.
+---
+# Introducing Continuous Integration
+## 4. Above all get some help.
+### Find someone who has done Continuous Integration before to help you. Like any new technique it's hard to introduce it when you don't know what the final result looks like. It may cost money to get a mentor, but you'll also pay in lost time and productivity if you don't do it.
+---
+background-image: url(images/cicd.png)
+
+---
+## Continuous Delivery is the ability to get changes of all types—including new features, configuration changes, bug fixes and experiments—into production, or into the hands of users, safely and quickly in a sustainable way.
+
+--
+
+## Our goal is to make deployments—whether of a large-scale distributed system, a complex production environment, an embedded system, or an app—predictable, routine affairs that can be performed on demand.
+---
+# We achieve all this by ensuring our code is always in a deployable state, even in the face of teams of thousands of developers making changes on a daily basis. We thus completely eliminate the integration, testing and hardening phases that traditionally followed “dev complete”, as well as code freezes.
+---
+## Businesses rely on getting valuable new software into the hands of users as fast as possible, while making sure that they keep their production environments stable. Continuous Delivery is a revolutionary and scalable agile methodology that enables any team, including teams within enterprise IT organizations, to achieve rapid, reliable releases through better collaboration between developers, testers, DBAs and operations, and automation of the build, deploy, test and release process. -- Jez Humble
+---
+## Frequent deployment is valuable because it allows your users to get new features more rapidly, to give more rapid feedback on those features, and generally become more collaborative in the development cycle. This helps break down the barriers between customers and development - barriers which I believe are the biggest barriers to successful software development. -- Jez Humble
+???
+---
+# "Delivery Thinking"
+---
+# Continuous Delivery Practices
+## Low risk releases 
+### The primary goal of continuous delivery is to make software deployments painless, low-risk events that can be performed at any time, on demand. By applying patterns such as blue-green deployments it is relatively straightforward to achieve zero-downtime deployments that are undetectable to users.
+---
+background-image: url(images/bg.png)
+???
+### One of the challenges with automating deployment is the cut-over itself, taking software from the final stage of testing to live production. You usually need to do this quickly in order to minimize downtime. The blue-green deployment approach does this by ensuring you have two production environments, as identical as possible. At any time one of them, let's say blue for the example, is live. As you prepare a new release of your software you do your final stage of testing in the green environment. Once the software is working in the green environment, you switch the router so that all incoming requests go to the green environment - the blue one is now idle.  
+## Blue-green deployment also gives you a rapid way to rollback 
+---
+# Continuous Delivery Practices
+## Faster time to market
+### It’s not uncommon for the integration and test/fix phase of the traditional phased software delivery lifecycle to consume weeks or even months. When teams work together to automate the build and deployment, environment provisioning, and regression testing processes, developers can incorporate integration and regression testing into their daily work and completely remove these phases. We also avoid the large amounts of re-work that plague the phased approach.
+---
+# Continuous Delivery Practices
+## Higher quality
+### When developers have automated tools that discover regressions within minutes, teams are freed to focus their effort on user research and higher level testing activities such as exploratory testing, usability testing, and performance and security testing. By building a deployment pipeline, these activities can be performed continuously throughout the delivery process, ensuring quality is built in to products and services from the beginning.
+---
+# Continuous Delivery Practices
+## Lower costs
+### Any successful software product or service will evolve significantly over the course of its lifetime. By investing in build, test, deployment and environment automation, we substantially reduce the cost of making and delivering incremental changes to software by eliminating many of the fixed costs associated with the release process.
+---
+# Continuous Delivery Practices
+## Better products
+### Continuous delivery makes it economic to work in small batches. This means we can get feedback from users throughout the delivery lifecycle based on working software. Techniques such as A/B testing enable us to take a hypothesis-driven approach to product development whereby we can test ideas with users before building out whole features. This means we can avoid the 2/3 of features we build that deliver zero or negative value to our businesses.
+---
+# Continuous Delivery Practices
+## Happier teams.
+### Peer-reviewed research has shown continuous delivery makes releases less painful and reduces team burnout. Furthermore, when we release more frequently, software delivery teams can engage more actively with users, learn which ideas work and which don’t, and see first-hand the outcomes of the work they have done. By removing the low-value painful activities associated with software delivery, we can focus on what we care about most—continuously delighting our users.
+---
+# CI/CD: Configuration Management Goals
+# (aka: Infrastructure as Code)
+
+### Reproducibility: We should be able to provision any environment in a fully automated fashion, and know that any new environment reproduced from the same configuration is identical.
+### Traceability: We should be able to pick any environment and be able to determine quickly and precisely the versions of every dependency used to create that environment. We also want to to be able to compare previous versions of an environment and see what has changed between them.
+
+---
+background-image: url(images/iac.png)
+---
+background-image: url(images/iac1.png)
+---
+# CI/CD: Importance of Configuration Management
+
+### Disaster recovery: When something goes wrong with one of our environments, for example a hardware failure or a security breach, we need to be able to reproduce that environment in a deterministic amount of time in order to be able to restore service.
+### Auditability: In order to demonstrate the integrity of the delivery process, we need to be able to show the path backwards from every deployment to the elements it came from, including their version. Comprehensive configuration management, combined with deployment pipelines, enable this.
+
+---
+# CI/CD: Importance of Configuration Management
+### Higher quality: The software delivery process is often subject to long delays waiting for development, testing and production environments to be prepared. When this can be done automatically from version control, we can get feedback on the impact of our changes much more rapidly, enabling us to build quality in to our software.
+### Capacity management: When we want to add more capacity to our environments, the ability to create new reproductions of existing servers is essential. This capability enables the horizontal scaling of modern cloud-based distributed systems.
+
+---
+# CI/CD: Importance of Configuration Management
+### Response to defects: When we discover a critical defect, or a vulnerability in some component of our system, we want to get a new version of our software released as quickly as possible. Many organizations have an emergency process for this type of change which goes faster by bypassing some of the testing and auditing. This presents an especially serious dilemma in safety-critical systems. Our goal should be to be able to use our normal release process for emergency fixes—which is precisely what continuous delivery enables, on the basis of comprehensive configuration management.
+---
+## CI/CD requires a fast-running set of comprehensive automated unit tests. These tests should be comprehensive enough to give a good level of confidence that the software will work as expected, while also running in a few minutes or less. If the automated unit tests take longer to run, developers will not want to run them frequently, and they will become harder to maintain.
+---
+## Daron Acemoglu and Pascual Restrepo
+
+## "Robots are to blame for up to 670,000 lost manufacturing jobs between 1990 and 2007, it concluded, and that number will rise because industrial robots are expected to quadruple."
+
+## "During that period, some estimate that US manufacturing employment declined from 17.9m to 14m. Robots are thus responsible for about one in six lost manufacturing jobs in America over this period."
+
+---
+# Acemoglu and Restrepo calculate the increase of 1 robot per thousand workers reduces employment rates (by between 0.18 and 0.34%) and wages (by between 0.25 and 0.5%). **Another way to look at this is that every additional robot reduces employment by 5.6 workers.**
+
+---
+# TODAY, IN 2017, the president’s top economic advisor said he had no worries about robots putting people out of work. “In terms of artificial intelligence taking over the jobs, I think we’re so far away from that that it’s not even on my radar screen,” Treasury Secretary Steve Mnuchin told an audience in Washington. “I think it’s 50 or 100 more years.”
+---
+background-image: url(images/apigee1.png)
+
+???
+# TTT: 70 skip to end.
+# On September 8, 2016 Google announced it would purchase Apigee for $625 million, and the deal was completed in November 2016.[11]
+---
+background-image: url(images/apigee2.png)
+---
+background-image: url(images/awsapi.png)
+---
+# Amazon API Gateway
+
+## API Lifecycle Management
+## Resiliency and HA
+## API Operations Monitoring
+## AWS Authorization
+## API Keys for Third-Party Developers
+## SDK Generation
+
+---
+background-image: url(images/kong1.png)
+---
+background-image: url(images/kong2.png)
+---
+background-image: url(images/kong3.png)
+---
+background-image: url(images/kong4.png)
+---
+background-image: url(images/kong5.png)
+---
+background-image: url(images/kong6.png)
+---
+background-image: url(images/kong7.png)
+---
+background-image: url(images/kong8.png)
+---
+background-image: url(images/kong9.png)
+---
+background-image: url(images/tyk.png)
+
+---
+class: center, middle
+
+# Monday: Ingrid Alongi from Quick Left
+# Wednesday, 4/12: No class
+      
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
