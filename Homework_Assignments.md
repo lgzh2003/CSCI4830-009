@@ -10,8 +10,17 @@ Submit a PR to improve class slides.
 Write a mission statement for your meaningful open source contribution. Use this [template](https://github.com/nmcclain/CSCI4830-009/blob/master/projects/TEMPLATE_STUDENTNAME_PROJECTNAME.md) and put your file in the projects folder.
 
 ## H3
-**Due:** TBA  
-Create a public GitHub repository with proper open source setup.
+**Due:** April 10
+Create a public GitHub repository with proper open source setup:
+
+* Meaningful Name
+* Repository Description
+* README.md
+* LICENSE
+* CONTRIBUTING
+
+Option 1: Add these files to your class project repository (if you control it).
+Option 2: Create a "hello world" repository specifically for HW3 and HW4.
 
 ## H4
 **Due:** TBA  

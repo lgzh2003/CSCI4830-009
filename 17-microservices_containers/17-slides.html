@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today:
+
+## Microservices & Containers
+
+---
+background-image: url(images/bsw.png)
+
+---
+class: center, middle
+# Idempotence
+---
+background-image: url(images/idem1.png)
+---
+# Consider a call between any two nodes. There are a variety of failures that can occur:
+
+## The initial connection could fail as the client tries to connect to a server.
+## The call could fail midway while the server is fulfilling the operation, leaving the work in limbo.
+## The call could succeed, but the connection break before the server can tell its client about it.
+---
+class: center, middle
+# Idempotence is the property of certain operations in mathematics and computer science, that can be applied multiple times without changing the result beyond the initial application.
+
+---
+background-image: url(images/idem2.png)
+
+---
+background-image: url(images/idem3.png)
+
+---
+# Exponential Backoff example: CSMA/CD
+
+### When a collision first occurs, send a “Jamming signal” to prevent further data being sent.
+### Resend a frame after either 0 seconds or 51.2μs, chosen at random.
+### If that fails, resend the frame after either 0s, 51.2μs, 102.4μs, or 153.6μs.
+### If that still doesn't work, resend the frame after k · 51.2μs, where k is a random integer between 0 and 23 − 1.
+### In general, after the cth failed attempt, resend the frame after k · 51.2μs, where k is a random integer between 0 and 2c − 1.
+
+---
+background-image: url(images/idem4.png)
+---
+background-image: url(images/idem5.png)
+
+---
+# Core Principles:
+
+### 1. Make sure that failures are handled consistently. Have clients retry operations against remote services. Not doing so could leave data in an inconsistent state that will lead to problems down the road.
+
+--
+
+### 2. Make sure that failures are handled safely. Use idempotency and idempotency keys to allow clients to pass a unique value and retry requests as needed.
+
+--
+
+### 3. Make sure that failures are handled responsibly. Use techniques like exponential backoff and random jitter. Be considerate of servers that may be stuck in a degraded state.
+
+---
+background-image: url(images/gens0.png)
+---
+background-image: url(images/gens1.jpg)
+---
+
+# Agreement Problems must solve for: termination, agreement, and validity
+
+### A solution has to guarantee that all correct processes eventually reach a decision regarding the value of the order they have been given.
+### All correct processes have to decide on the same value of the order they have been given.
+### If the source process is a correct process, all processes have to decide on the value that was originally given by the source process.
+
+---
+background-image: url(images/gens3.png)
+---
+background-image: url(images/gens2.png)
+---
+background-image: url(images/d0.png)
+---
+background-image: url(images/d1.png)
+---
+background-image: url(images/d2.png)
+---
+background-image: url(images/d3.png)
+---
+background-image: url(images/d4.png)
+---
+background-image: url(images/d5.png)
+---
+background-image: url(images/d6.png)
+---
+background-image: url(images/d7.png)
+---
+background-image: url(images/d8.png)
+---
+background-image: url(images/d9.png)
+---
+background-image: url(images/d10.png)
+---
+background-image: url(images/d11.png)
+---
+background-image: url(images/d12.png)
+---
+background-image: url(images/d25.png)
+---
+background-image: url(images/d13.png)
+---
+background-image: url(images/d14.png)
+---
+background-image: url(images/d15.png)
+---
+background-image: url(images/d16.png)
+---
+background-image: url(images/d17.png)
+---
+background-image: url(images/d18.png)
+---
+background-image: url(images/d19.png)
+---
+# Why Developers Care
+
+## **Build once…run anywhere**
+
+--
+
+* A clean, safe, hygienic and portable runtime environment for your app.
+* No worries about missing dependencies, packages and other pain points during subsequent deployments.
+* Run each app in its own isolated container,  so you can run various versions of libraries and other dependencies for each app without worrying
+* Automate testing, integration, packaging…anything you can script 
+* Reduce/eliminate concerns about compatibility on different platforms, either your own or your customers. 
+* Cheap, zero-penalty containers to deploy services? A VM without the overhead of a VM? Instant replay and reset of image snapshots?
+
+---
+class: center, middle
+
+## “Docker interests me because it allows simple environment isolation and repeatability. I can create a run-time environment once, package it up, then run it again on any other machine. Furthermore, everything that runs in that environment is isolated from the underlying host (much like a virtual machine). And best of all, everything is fast and simple.” -Gregory Szorc, Mozilla Foundation
+---
+# Why Operations Cares?
+
+## **Configure once…run anything**
+
+--
+
+* Make the entire lifecycle more efficient, consistent, and repeatable
+* Increase the quality of code produced by developers. 
+* Eliminate inconsistencies between development, test, production, and customer environments
+* Support segregation of duties
+* Significantly improves the speed and reliability of continuous deployment and continuous integration systems
+* Because the containers are so lightweight, address significant performance, costs, deployment, and portability issues normally associated with VMs
+
+---
+background-image: url(images/d20a.png)
+---
+background-image: url(images/d20.png)
+---
+background-image: url(images/d21.png)
+---
+background-image: url(images/d22.png)
+---
+background-image: url(images/d23.png)
+---
+background-image: url(images/d24.png)
+---
+background-image: url(images/d26.png)
+---
+background-image: url(images/d0.png)
+---
+background-image: url(images/dee1.png)
+---
+
+### Docker container engine on Certified Infrastructure
+### Certified Containers from third-party ISV vendors
+### Certified Plugins from networking and storage vendors
+### Docker Datacenter for Integrated container management and security
+### Intuitive and easy to use web user interface
+### Multi-tenancy with Role Based Access Control (RBAC) and LDAP/AD integration
+### End to end security with secrets management, image signing, image scanning and policy
+### Image management with private registry, storage and caching
+
+---
+background-image: url(images/dockerhack.png)
+
+---
+background-image: url(images/kube1.png)
+---
+background-image: url(images/cncf1.png)
+---
+background-image: url(images/kube2.png)
+---
+background-image: url(images/cncf2.png)
+---
+background-image: url(images/cncf3.png)
+---
+background-image: url(images/cncf4.png)
+---
+background-image: url(images/linkerd.png)
+---
+background-image: url(images/linkerd2.png)
+---
+background-image: url(images/prom1.png)
+---
+background-image: url(images/prom2.png)
+
+---
+background-image: url(images/box.png)
+---
+# "Essentially a year ago, we finally launched our first production service on Kubernetes, and since then we’ve onboarded about 20 microservices, I believe (maybe a little bit more), out of maybe a hundred in our company, plus the PHP monolith. So now we’ve got a pretty non-trivial amount of traffic regularly going through Kubernetes." - Sam Ghods
+
+---
+# "And we’ve got our microservice provisioning time — from someone who’s never used the system before, from scratch … — down to about 3 to 5 days [from 6 to 9 months]. And if you’ve done it before, less than a day." - Sam Ghods
+
+---
+## "I predict that we will get to pretty full container penetration, hopefully over the next couple years. I think we’re generally trying to get away from a monolith altogether. … There will probably always be one, but now that we have this foundation to build microservices, we’re much more aggressively focusing on taking big chunks out of it, or turning big chunks of it … into microservices instead of big balls of PHP logic." - Sam Ghods
+
+
+---
+class: center, middle
+# "A great lathe operator commands several times the wage of an average lathe operator, but a great writer of software code is worth 10,000 times the price of an average software writer." - Bill Gates
+---
+background-image: url(images/tenx0.png)
+---
+background-image: url(images/tenx1.png)
+---
+# Bare programming abilities: getting sub-tasks done
+
+## "Surprisingly the ability to use basic imperative programming constructs very efficiently in order to implement something is, in my experience, not as widespread as one may think."
+---
+# Experience: pattern matching
+
+## "An experienced programmer eventually knows how to deal with a variety of sub tasks. This avoids both a lot of design work, but especially, is an extremely powerful weapon against design errors, that are in turn among the biggest enemies of simplicity."
+
+---
+# Focus: actual time VS hypothetical time
+
+### "The number of hours spent writing code is irrelevant without looking at the quality of the time. Lack of focus can be generated by internal and external factors. Internal factors are procrastination, lack of interest in the project at hand (you can’t be good doing things you do not love), lack of exercise / well-being, poor or little sleeping. External factors are frequent meetings, work environments without actual offices, coworkers interrupting often and so forth."
+
+---
+# Design sacrifice: killing 5% to get 90%
+
+### "Often complexity is generated when there is no willingness to recognized that a non fundamental goal of a project is accounting for a very large amount of design complexity, or is making another more important goal very hard to reach, because there is a design tension among a fundamental feature and a non fundamental one. It is very important for a designer to recognize all the parts of a design that are not easy wins, that is, there is no proportionality between the effort and the advantages."
+
+---
+# Simplicity
+
+### "This is an obvious point that means all and nothing. In order to understand what simplicity is, it is worth to check how complexity is often generated. I believe that the two main drivers of complexity are the unwillingness to perform design sacrifices, and the accumulation of errors in the design activity." 
+
+### "...each time a complex solution is needed, it’s important to reason for a long time about how the complexity can be avoided, and only continue in that direction if no better possibility is found even considering completely different alternatives.
+---
+# Perfectionism, or how to kill your productivity and bias your designs
+
+### "Perfectionism comes in two variants: an engineering culture of reaching the best possible measurable performance in a program, and as a personality trait. In both the instances, I see this as one of the biggest barriers for a programmer to deliver things fast. Perfectionism and fear of external judice insert a designing bias that will result in poor choices in order to refine a design only according to psychological or trivially measurable parameters, where things like robustness, simplicity, ability to deliver in time, are often never accounted for. "
+
+---
+# Knowledge: some theory is going to help
+
+## "When dealing with complex tasks, knowledge about data structures, fundamental limits of computation, non trivial algorithms that are very suitable to model certain tasks, are going to have an impact in the ability to find a suitable design. To be a super expert of everything is not required, but to be at least aware of a multitude of potential solutions for a problem certainly is."
+
+---
+# Debugging skills
+
+## "It is very easy to spend an enormous amount of work in order to find bugs. The sum of being good at gaining state about a bug, incrementally, in order to fix it with a rational set of steps, and the attitude of writing simple code that is unlikely to contain too many bugs, can have a great effect on the programmer efficiency."
+
+---
+## "It is not surprising to me to see how the above qualities of a programmer can have a 10x impact on the output. Combined they allow for good implementations of designs that start from a viable model and can be several times simpler than alternatives. There is a way to stress simplicity that I like to call “opportunistic programming”. Basically at every development step, the set of features to implement is chosen in order to have the maximum impact on the user base of the program, with the minimum requirement of efforts."
+
+---
+background-image: url(images/tenxhumble.png)
+---
+
+class: center, middle
+
+# Next Week: DevOps & Automation 
+
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
