@@ -11,3 +11,9 @@
 **Option 2** Created repository CI-Practice for HW3 and HW4 as I don't control the project repo.
 
 **Link** https://github.com/taylorjandrews/CI-Practice
+
+**Bharadwaj Thirumal**
+
+**Option ?** I already had a repo with all files except CONTRIBUTING.md. Added it to the repo.
+
+**Link** https://github.com/bharadwajth/study-materials
