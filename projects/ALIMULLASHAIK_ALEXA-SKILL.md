@@ -10,3 +10,8 @@ Amazon web services is definitely a big service cloud environment, but I didn’
 
 Why this contribution is meaningful to the project (1-3 sentences):
 Amazon alexa is growing and they want everyone to try and publish their own skills to expand the usage of it. With my contribution to this project, will have some technologies developed and published skills to present at the end of the semester.
+
+HW 3 repository link:
+https://github.com/shaikalimulla/OpenSource-Project
+
+Created two Alexa skills for HW 3 and stored in two different repositories.
