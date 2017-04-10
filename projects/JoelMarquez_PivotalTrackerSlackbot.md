@@ -1,7 +1,7 @@
 
 # Student Name: Joel Marquez
 # Project Name: Pivotal Tracker Slackbot
-# Project URL: TBD
+# Project URL: https://github.com/joelhmarquez/pivotaltracker-slackbot for HW#3
 
 ## Planned contribution (1-3 sentences): Christina and I are going to create a Slackbot that can interact with the Pivotal Tracker API. The Slackbot can get stories' statuses and push updates.
 
