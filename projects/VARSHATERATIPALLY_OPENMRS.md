@@ -16,3 +16,8 @@ OpenMRS is a project which has an impact all across the world improving the worl
 ## Why this contribution is meaningful to the project (1-3 sentences):
 
 The contribution to the project would be impacted all across the world and first I would start with the general documentations and then would start resolving the bugs and then features requested.
+
+
+## link for Homework 3
+
+https://github.com/varshateratipally/PriorityQueue
