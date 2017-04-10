@@ -27,3 +27,7 @@
 **Option 2**: I created a repository specifically for this project since I do not have rights to the project repository.
 
 **Link**: https://github.com/nmcclain/CSCI4830-009.git
+
+**Dylan McKinney**
+
+**Option 1**: I added the files to my existing [project](https://github.com/dmckinney5/SlackOff).
