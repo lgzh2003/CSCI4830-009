@@ -31,3 +31,9 @@
 **Dylan McKinney**
 
 **Option 1**: I added the files to my existing [project](https://github.com/dmckinney5/SlackOff).
+
+**Holden Sheftel**
+
+**Option 2**: I created a new repository for this assignment.
+
+**Link**: https://github.com/holdenout/OSS-practice
