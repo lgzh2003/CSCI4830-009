@@ -31,3 +31,7 @@
 **Dylan McKinney**
 
 **Option 1**: I added the files to my existing [project](https://github.com/dmckinney5/SlackOff).
+
+**Ryan Riley**
+
+**Option 2**: I created a [repository](https://github.com/RyanBRiley/dash-vee) specifically for this project because I do not have rights to Sci-kit's repo. I may actually change this to my final project if I can not find a suitable issue for sci-kit to work on. 
