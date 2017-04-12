@@ -45,3 +45,9 @@
 **Ao Liu**
 
 **Option 1**: I added the files to my existing [project](https://github.com/holoTail/web-crawler-with-asyncio-coroutines).
+
+**Tyler Lugger**
+
+**Option 2** I created a new repository for this assignment.
+
+**Link** https://github.com/tlugger/OpenSource-Jupyter
