@@ -50,3 +50,8 @@
 
 **Option 1**: I arranged my open source software "Bengine" to match the format indicated. [project](https://github.com/efossas/Bengine).
 
+**Tyler Lugger**
+
+**Option 2** I created a new repository for this assignment.
+
+**Link** https://github.com/tlugger/OpenSource-Jupyter
