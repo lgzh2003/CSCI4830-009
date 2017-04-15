@@ -13,3 +13,5 @@ Machine learning is definitely a big topic, but I know almost nothing about it. 
 ## Why this contribution is meaningful to the project (1-3 sentences):
 The project seems to want more documentation. When I scroll through the issues on the github project most of the issues are within documentation. I don't know a thing about machine learning so writing code to help the project might be too much of a leap. I believe I can help the most by fixing documentation errors.
 
+# Homework 3 repo link:
+https://github.com/No-Doy/HW3_Licensing
