@@ -59,3 +59,9 @@
 **Keyu Chen**                 
                
 **Option 1**: I added the files to my existing [project](https://github.com/lgzh2003/React/tree/master/projectHere)         
+
+**Lili Ji**
+
+**Option 2** I created a new repository for this assignment.
+
+**Link** https://github.com/lilyJi/UCDWebsite

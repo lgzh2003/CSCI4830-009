@@ -4,6 +4,9 @@
 
 # Project URL: https://github.com/jenkinsci/jenkins
 
+# HW3 repository link: https://github.com/lilyJi/UCDWebsite
+
+
 ## Planned contribution (1-3 sentences):
 
 Contribute localizations to my native tongue(Chinese) via the Internationalization projet. Contribute localizaions from any page within Jenkins by using the Translation Assistance Plugin.
