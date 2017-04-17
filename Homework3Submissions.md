@@ -55,3 +55,9 @@
 **Option 2** I created a new repository for this assignment.
 
 **Link** https://github.com/tlugger/OpenSource-Jupyter
+
+**Lili Ji**
+
+**Option 2** I created a new repository for this assignment.
+
+**Link** https://github.com/lilyJi/UCDWebsite
