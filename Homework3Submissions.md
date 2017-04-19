@@ -69,3 +69,9 @@
 **Brian Alfano**
 
 **Option 2** https://github.com/No-Doy/HW3_Licensing
+
+**Kyle Knight**
+
+**Option 2** I created a new repository for this assignment.
+
+**Link** https://github.com/knightkd/Licensing_and_CI_Practice
