@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today: Automation, Testing, API Design
+
+---
+
+background-image: url(images/cicd.png)
+???
+# CI/CD
+## Low risk releases
+## Faster time to market
+## Higher quality
+## Lower costs
+## Better products
+## Happier teams.
+---
+background-image: url(images/pipeline1.png)
+---
+class: center, middle
+# Patterns
+## “a named strategy for solving a recurring problem”. -- Linda Rising
+
+--
+
+## “Each pattern describes a problem that occurs over and over again in our environment and then describes the core of the solution to that problem in such a way that you can use this solution a million times over without ever doing it the same way twice.” -- Christopher Alexander
+---
+# Patterns: Deployment Pipeline
+---
+background-image: url(images/pipeline.png)
+---
+# Deployment Pipeline Practices
+## Only build packages once. We want to be sure the thing we’re deploying is the same thing we’ve tested throughout the deployment pipeline, so if a deployment fails we can eliminate the packages as the source of the failure.
+---
+# Deployment Pipeline Practices
+## Deploy the same way to every environment—including development. This way, we test the deployment process many, many times before it gets to production, and again, we can eliminate it as the source of any problems.
+---
+# Deployment Pipeline Practices
+## Smoke test your deployments. Have a script that validates all your application’s dependencies are available, at the location you have configured your application. Make sure your application is running and available as part of the deployment process.
+---
+# Deployment Pipeline Practices
+## Keep your environments similar. Although they may differ in hardware configuration, they should have the same version of the operating system and middleware packages, and they should be configured in the same way. This has become much easier to achieve with modern virtualization and container technology.
+---
+background-image: url(images/pipeline2.png)
+---
+background-image: url(images/pipeline3.png)
+---
+# Patterns for Low-Risk Releases
+## Low-risk Releases are Incremental. Our goal is to architect our systems such that we can release individual changes (including database changes) independently, rather than having to orchestrate big-bang releases due to tight coupling between multiple different systems. This typically requires building versioned APIs and implementing patterns such as circuit breaker.
+---
+# Patterns for Low-Risk Releases
+## Decouple Deployment and Release. Releasing new versions of your system shouldn’t require downtime. 
+---
+# "Facebook pages would make connections to the chat servers, query for presence information and simulate message sends without a single UI element drawn on the page."
+---
+# Patterns for Low-Risk Releases
+## Focus on Reducing Batch Size. Counterintuitively, deploying to production more frequently actually reduces the risk of release when done properly, simply because the amount of change in each deployment is smaller. 
+---
+# Patterns for Low-Risk Releases
+## Optimize for Resilience. Once we accept that failures are inevitable, we should start to move away from the idea of investing all our effort in preventing problems, and think instead about how to restore service as rapidly as possible when something goes wrong. 
+
+---
+# Pipeline Tooling
+
+---
+## Hudson: started in 2004 at Sun Microsystems.
+### Acquisition of Sun Microsystems by Oracle Corporation was completed on January 27, 2010.
+### Oracle claimed the right to the name and applied for a trademark in December 2010.
+### As a result, on January 11, 2011, a call for votes was made to change the project name from "Hudson" to "Jenkins".
+
+---
+background-image: url(images/j0.png)
+---
+background-image: url(images/j1.png)
+---
+background-image: url(images/j2a.png)
+---
+background-image: url(images/j2b.png)
+---
+background-image: url(images/j3.png)
+---
+background-image: url(images/j4.png)
+---
+background-image: url(images/gocd0.png)
+---
+background-image: url(images/gocd1.png)
+---
+# Tooling 2.0
+
+???
+# Besides, project specific configurations and code belong to the same repository where the rest of application code resides and not in some central location.
+# era when heavy centralization and horizontal division of tasks was thought to be a good idea.
+## At approximately the same time, we thought that UIs should solve most of the problems. Today, we know that many of the types of tasks are easier to define and maintain as code, than through some UI.
+--
+
+# TravisCI, CircleCI, CodeShip
+
+---
+background-image: url(images/travis.png)
+???
+## Even though all three companies were started in 2011
+## Growth hacking travis.yml
+## free hosted continuous integration platform for the open source community, integrating tightly with GitHub
+## Travis CI supports 12 different language platforms natively in different incarnations and offers testing on Linux, iOS and Mac environments.
+
+---
+background-image: url(images/travis1.png)
+---
+background-image: url(images/travis2.png)
+---
+background-image: url(images/travismin.png)
+---
+background-image: url(images/travis3.png)
+---
+background-image: url(images/travis4.png)
+---
+background-image: url(images/circle.png)
+---
+background-image: url(images/circle1.png)
+---
+background-image: url(images/circle2.png)
+---
+background-image: url(images/cs.png)
+---
+background-image: url(images/cs1.png)
+
+---
+# CI/CD: Infrastructure as Code
+
+### Reproducibility: We should be able to provision any environment in a fully automated fashion, and know that any new environment reproduced from the same configuration is identical.
+### Traceability: We should be able to pick any environment and be able to determine quickly and precisely the versions of every dependency used to create that environment. We also want to to be able to compare previous versions of an environment and see what has changed between them.
+
+---
+background-image: url(images/iac.png)
+---
+background-image: url(images/iac1.png)
+---
+# CI/CD: Importance of Configuration Management
+
+### Disaster recovery: When something goes wrong with one of our environments, for example a hardware failure or a security breach, we need to be able to reproduce that environment in a deterministic amount of time in order to be able to restore service.
+### Auditability: In order to demonstrate the integrity of the delivery process, we need to be able to show the path backwards from every deployment to the elements it came from, including their version. Comprehensive configuration management, combined with deployment pipelines, enable this.
+
+---
+# CI/CD: Importance of Configuration Management
+### Higher quality: The software delivery process is often subject to long delays waiting for development, testing and production environments to be prepared. When this can be done automatically from version control, we can get feedback on the impact of our changes much more rapidly, enabling us to build quality in to our software.
+### Capacity management: When we want to add more capacity to our environments, the ability to create new reproductions of existing servers is essential. This capability enables the horizontal scaling of modern cloud-based distributed systems.
+
+---
+# CI/CD: Importance of Configuration Management
+### Response to defects: When we discover a critical defect, or a vulnerability in some component of our system, we want to get a new version of our software released as quickly as possible. Many organizations have an emergency process for this type of change which goes faster by bypassing some of the testing and auditing. This presents an especially serious dilemma in safety-critical systems. Our goal should be to be able to use our normal release process for emergency fixes—which is precisely what continuous delivery enables, on the basis of comprehensive configuration management.
+---
+background-image: url(images/rollback.png)
+---
+# "The fundamental problem with rolling back to an old version is that web applications are not self-contained, and therefore they do not have versions. They have a current state. The state consists of the application code and everything that it interacts with. Databases, caches, browsers, and concurrently-running copies of itself." - Dan McKinley
+---
+background-image: url(images/rollback1.png)
+---
+# "You can roll back the SHA the webservers are running, but you can’t roll back what they’ve inflicted on everything else in the system. Well, not without a time machine. If you have a time machine, please use the time machine. Otherwise, the remediation has to occur in the direction of the future." - Dan McKinley
+---
+background-image: url(images/rollback2.png)
+---
+background-image: url(images/rollback3.png)
+---
+# If you haven't tried it, assume it's broken." - Unknown
+
+???
+# TTT: 35
+---
+## CI/CD requires a fast-running set of comprehensive automated unit tests. These tests should be comprehensive enough to give a good level of confidence that the software will work as expected, while also running in a few minutes or less. If the automated unit tests take longer to run, developers will not want to run them frequently, and they will become harder to maintain.
+
+
+---
+# One key responsibility of software engineeers is to quantify confidence in the systems they build and maintain.
+---
+# Confidence can be measured both by past reliability and future reliability. 
+
+--
+
+## The former is captured by analyzing data provided by monitoring historic system behavior, while the latter is quantified by making predictions from data about past system behavior.
+
+---
+## In order for these predictions to be strong enough to be useful, one of the following conditions must hold:
+
+--
+
+## The site remains completely unchanged over time with no software releases or changes in the server fleet, which means that future behavior will be similar to past behavior.
+
+## You can confidently describe all changes to the site, in order for analysis to allow for the uncertainty incurred by each of these changes.
+
+---
+# Testing is the mechanism you use to demonstrate specific areas of equivalence when changes occur. Each test that passes both before and after a change reduces the uncertainty for which the analysis needs to allow. Thorough testing helps us predict the future reliability of a given site with enough detail to be practically useful.
+---
+# Relationships Between Testing and Mean Time to Repair
+
+## The Mean Time Between Failures (MTBF) measures how long it takes for user-visible bug to occur.
+## The Mean Time to Repair (MTTR) measures how long it takes the operations team to fix the bug, either through a rollback or another action.  
+
+--
+
+# MTTR > MTBF
+
+---
+## It’s possible for a testing system to identify a bug with zero MTTR. Zero MTTR occurs when a system-level test is applied to a subsystem, and that test detects the exact same problem that monitoring would detect. Such a test enables the push to be blocked so the bug never reaches production (though it still needs to be repaired in the source code). Repairing zero MTTR bugs by blocking a push is both quick and convenient. The more bugs you can find with zero MTTR, the higher the Mean Time Between Failures (MTBF) experienced by your users.
+
+---
+
+# As MTBF increases in response to better testing, developers are encouraged to release features faster. Some of these features will, of course, have bugs. New bugs result in an opposite adjustment to release velocity as these bugs are found and fixed.
+
+
+---
+background-image: url(images/testpyr.png)
+???
+# Testing through the UI like this is slow, increasing build times. Often it requires installed licences for the test automation software, which means it can only be done on particular machines. 
+# Most importantly such tests are very brittle. 
+
+---
+background-image: url(images/testcone.png)
+
+---
+## "I always argue that high-level tests are there as a second line of test defense. If you get a failure in a high level test, not just do you have a bug in your functional code, you also have a missing or incorrect unit test. Thus I advise that before fixing a bug exposed by a high level test, you should replicate the bug with a unit test. Then the unit test ensures the bug stays dead." - Martin Fowler
+
+---
+background-image: url(images/testpyr2.png)
+
+???
+# Unit tests
+# Integration tests
+# System tests: Smoke, Performance, Regression
+
+---
+background-image: url(images/test0.png)
+---
+background-image: url(images/test2.png)
+---
+background-image: url(images/test3.png)
+---
+background-image: url(images/test4.png)
+---
+background-image: url(images/test5.png)
+---
+background-image: url(images/test6.png)
+---
+background-image: url(images/test7.png)
+---
+background-image: url(images/test8.png)
+---
+background-image: url(images/test9.png)
+---
+background-image: url(images/test10.png)
+---
+background-image: url(images/test11.png)
+---
+## "Testing is one of the most profitable investments engineers can make to improve the reliability of their product. Testing isn’t an activity that happens once or twice in the lifecycle of a project; it’s continuous. The amount of effort required to write good tests is substantial, as is the effort to build and maintain infrastructure that promotes a strong testing culture. You can’t fix a problem until you understand it, and in engineering, you can only understand a problem by measuring it. "
+---
+# API Design Notes
+???
+# Traditionally, people design RPC APIs in terms of API interfaces and methods, such as CORBA and Windows COM. As time goes by, more and more interfaces and methods are introduced. The end result can be an overwhelming number of interfaces and methods, each of them different from the others. Developers have to learn each one carefully in order to use it correctly, which can be both time consuming and error prone.
+---
+background-image: url(images/rest.png)
+???
+The goal for this Design Guide is to help developers design simple, consistent and easy-to-use networked APIs. 
+
+---
+# Its core principle is to define named resources that can be manipulated using a small number of methods. The resources and methods are known as nouns and verbs of APIs. With the HTTP protocol, the resource names naturally map to URLs, and methods naturally map to HTTP methods POST, GET, PUT, PATCH, and DELETE.
+
+???
+# On the Internet, HTTP REST APIs have been recently hugely successful. In 2010, about 74% of public network APIs were HTTP REST APIs.
+
+---
+## /getAllEmployees
+## /addNewEmployee
+## /updateEmployee
+## /deleteEmployee
+## /deleteAllEmployees
+## /promoteEmployee
+## /promoteAllEmployees
+---
+# "The URL is a sentence, where resources are nouns and HTTP methods are verbs."
+---
+# REST defines standard methods (verbs): List, Get, Create, Update, and Delete. 
+# There the HTTP methods (GET, POST, DELETE, PUT), also called as verbs, play the role.
+---
+background-image: url(images/api1.png)
+???
+# The resource should always be plural in the API endpoint and if we want to access one instance of the resource, we can always pass the id in the URL.
+---
+background-image: url(images/api2.png)
+---
+background-image: url(images/api3.png)
+---
+background-image: url(images/api5.png)
+---
+background-image: url(images/api4.png)
+---
+background-image: url(images/gapi1.png)
+???
+The goal for this Design Guide is to help developers design simple, consistent and easy-to-use networked APIs. At the same time, it also helps converging designs of socket-based RPC APIs with HTTP-based REST APIs.
+---
+background-image: url(images/rest1.png)
+---
+# API Design Steps
+
+## Determine what types of resources an API provides.
+## Determine the relationships between resources.
+## Decide the resource name schemes based on types and relationships.
+## Decide the resource schemas.
+## Attach minimum set of methods to resources.
+---
+background-image: url(images/gapi2.png)
+---
+# API Design Gotchas
+
+## Empty Responses
+## Representing Ranges
+## Long Running Operations
+## List Pagination
+## Canonical Naming
+## Duplicate Requests
+## Types
+## Caching
+---
+background-image: url(images/swag0.png)
+---
+background-image: url(images/swag1.png)
+---
+background-image: url(images/swag2.png)
+---
+background-image: url(images/swag3.png)
+---
+background-image: url(images/micro1.jpg)
+---
+background-image: url(images/mm.png)
+---
+# Micro-monolith Anti-Patterns
+
+# Tomasz Fijałkowski
+
+# chi.pl
+
+---
+# Micro-monolith on the frontend level
+
+## "According to agile methodology, a team should be cross-functional and be able to deliver entire feature themselves. Thus, it seems natural not to create single service responsible for whole frontend. Such approach is a short road to frontend monolith. The frontend team is involved in every change and becomes a bottleneck.  Instead, each team should provide a piece of frontend suitable for a domain they build."
+
+---
+# Micro-monolith on the services level
+
+## "Macro architecture of a system should limit impact to each microservice. Similarly, architecture of each microservice should not affect to macro architecture. "
+
+## "Another dangerous decision is to use a lib for reusing code. In this case teams are devoid of technological independence. Moreover, domain modification requires teams synchronization and changes in many services.  Abandoning a DRY principle for independence should be considered."
+
+???
+# 
+# deploy dependencies
+
+---
+# Micro-monolith on the database level
+
+## "Unfortunately, the most difficult task is to refactoring and splitting the monolith database (especially RDBMS).  Any modification of database model requires teams synchronization and potentially changing of many services, what should be abandoned."
+
+---
+# Micro-monolith Testing
+
+## "Even if microservices are split and separated well, improper approach to deploy pipeline may push you into the micro-monolith anti-pattern. The challenge is to test the entire system.  Shared tests across the entire system may be a bottleneck of a deploy pipeline what limits frequent deployments."
+
+---
+background-image: url(images/mm1.png)
+
+---
+class: center, middle
+# @cdixon on Climbing the wrong hill
+
+???
+# General partner at a16z, where I do seed-stage and venture-stage investing. My seed and venture investments: Airware,  Shapeways,  Coinbase,  Oculus,  Wit.ai, Buzzfeed,  Soylent,  Ringly,  Stack Overflow,  Improbable,  OpenBazaar,  Zipline,  Keybase,  Envoy,  Skydio,  Nootrobox,  Dispatch.ai,  Comma.ai.
+
+---
+background-image: url(images/hill.png)
+
+???
+## Consider the simplest algorithm.  At any given moment, take a step in the direction that takes you higher.  The risk with this method is if you happen to start near the lower hill, you’ll end up at the top of that lower hill, not the top of the tallest hill.
+
+## A more sophisticated version of this algorithm adds some randomness into your walk.  You start out with lots of randomness and reduce the amount of randomness over time.  This gives you a better chance of meandering near the bigger hill before you start your focused, non-random climb.
+
+## Another and generally better algorithm has you repeatedly drop yourself in random parts of the terrain, do simple hill climbing, and then after many such attempts step back and decide which of the hills were highest.
+
+
+---
+# Going back to the job candidate, he has the benefit of having a less foggy view of his terrain.   He knows (or at least believes) he wants to end up at the top of a different hill than he is presently climbing.  He can see that higher hill from where he stands.
+
+---
+# But the lure of the current hill is strong.  There is a natural human tendency to make the next step an upward one.  He ends up falling for a common trap highlighted by behavioral economists:  people tend to systematically overvalue near term over long term rewards.  
+
+---
+# This effect seems to be even stronger in more ambitious people.  Their ambition seems to make it hard for them to forgo the nearby upward step.
+
+---
+class: center, middle
+# "People early in their career should learn from computer science:  meander some in your walk (especially early on), randomly drop yourself into new parts of the terrain, and when you find the highest hill, don’t waste any more time on the current hill no matter how much better the next step up might appear." - Chris Dixon
+
+---
+background-image: url(images/random.png)
+---
+background-image: url(images/joel1.png)
+---
+background-image: url(images/joel2.png)
+
+---
+# Homework 4 - Due April 26
+
+# Implement Continuous Integration for your homework repository.
+
+--
+
+## Jenkins is awesome, but TravisCI or CircleCI are probably the easiest choices.
+
+---
+class: center, middle
+
+# Wednesday: HA/DR, cloud services, monitoring, and analytics
+
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today:
+
+## Implementing Agile
+
+---
+background-image: url(images/spanner1.png)
+---
+## "...a series of GPS receivers and atomic clocks."
+
+--
+
+## "Google mentions an upper bound of 7ms. That’s pretty tight; by contrast, using NTP for clock synchronization is likely to give somewhere between 100ms and 250ms."
+
+--
+
+## "This gives you faster-than-light coordination between two places,” says Peter Mattis, a former Google engineer.
+---
+background-image: url(images/cockroach0.png)
+
+---
+class: center, middle
+# Ned - Don't forget thankyous!
+
+---
+class: center, middle
+.hero[51.724%]
+---
+background-image: url(images/wf-vs-agile.png)
+---
+![](images/mvpb.png)
+---
+![](images/mvp13.jpg)
+---
+![](images/mvpb.png)
+---
+background-image: url(images/skateboard-criticism.png)
+---
+background-image: url(images/reduced_cycletime.jpg)
+---
+background-image: url(images/small.jpg)
+---
+background-image: url(images/small2.png)
+---
+background-image: url(images/manifesto.png)
+---
+# Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
+
+--
+
+# Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitive advantage.
+
+---
+# Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.
+
+--
+
+# Business people and developers must work together daily throughout the project.
+
+---
+# Build projects around motivated individuals.  Give them the environment and support they need, and trust them to get the job done.
+
+--
+
+# The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.
+
+---
+# Working software is the primary measure of progress.
+
+--
+
+# Agile processes promote sustainable development.  The sponsors, developers, and users should be able to maintain a constant pace indefinitely.
+
+---
+# Continuous attention to technical excellence and good design enhances agility.
+
+--
+
+# Simplicity--the art of maximizing the amount of work not done--is essential.
+
+--
+
+# The best architectures, requirements, and designs emerge from self-organizing teams.
+
+---
+background-image: url(images/valve.png)
+---
+background-image: url(images/valve2.png)
+---
+# At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.
+
+---
+background-image: url(images/manifesto.png)
+---
+# Agile is an Umbrella
+
+# RUP -> XP -> Scrum -> Kanban -> Cowboy
+
+---
+background-image: url(images/xp0.jpg)
+---
+![](images/xp1.png)
+![](images/xp2.png)
+---
+# Scrum
+## Split organization
+## Split work
+## Split time
+## Collect feedback
+## Optimize
+---
+background-image: url(images/scrum.jpg)
+---
+# Kanban
+
+## Kanban is Japanese for “visual signal” or “card.” Toyota line-workers used a kanban (i.e., an actual card) to signal steps in their manufacturing process. The system's highly visual nature allowed teams to communicate more easily on what work needed to be done and when.
+
+---
+background-image: url(images/kanban.gif)
+---
+# Kanban
+
+## Lean approach to agile development
+## Eliminate sprints: release each feature when ready
+## Focus on features rather than groups of features
+## One feature at a time: start to deployment
+## Goal is to eliminate software inventory, aka: "waste"
+## Limit work in progress
+
+---
+background-image: url(images/kanban2.jpg)
+---
+background-image: url(images/hc_gov.png)
+---
+## HealthCare.gov
+
+### "The site functions as a clearing house to allow Americans to compare prices on health insurance plans in their states, to begin enrollment in a chosen plan, and to simultaneously find out if they qualify for government healthcare subsidies. Visitors sign up and create their own specific user account first, listing some personal information, before receiving detailed information about what is available in their area. Designed to assist the millions of uninsured Americans, the comparison shopping features involve a visual format somewhat analogous to websites such as Amazon.com and Etsy." - Wikipedia
+---
+![](images/potus.jpg)
+---
+class: center, middle
+# "There's no sugar coating: the website has been too slow, people have been getting stuck during the application process and I think it's fair to say that nobody's more frustrated by that than I am." 
+
+## *President Obama*
+
+---
+class: center, middle
+# "Stay away from HealthCare.gov for at least another month. Hopefully that will be long enough for its software vendors to clean up the mess they've made."
+
+## *ConsumerReports*
+
+---
+class: center, middle
+# What happened??
+
+---
+## "Unexpected high volume when the site drew 250,000 simultaneous users instead of the 50,000-60,000 expected stress tests done by contractors 1 day before the launch date revealed that the site became too slow with only 1,100 simultaneous users, nowhere near even the 50,000-60,000 expected."
+
+---
+### "Although **the government shutdown began on the same day**, HealthCare.gov was one of the federal government websites that remained open through the events. 
+
+### Although it appeared to be up and running normally, visitors quickly encountered numerous types of technical problems, and, by some estimates, only 1% of interested people were able to enroll to the site in the first week of its operations. 
+
+### Even for those that did manage to enroll, insurance providers later reported some instances of applications submitted through the site with required information missing." - Wikipedia
+
+---
+class: center, middle
+# 60 contracts for the project. These contracts were awarded to 33 different companies.
+
+---
+# "Taxpayers are paying dearly for CMS’ choice. One contract grew from $58 million to $207 million. The six major contracts for HealthCare.gov grew in costs from $464 million to $824 million."
+
+---
+class: center, middle
+# "Regardless of your opinions on the health-care law, this is the wrong way to make software. In the meantime, it’s clear that tens of millions of dollars have been spent to launch something broken."
+
+## *Bloomberg Businessweek journalist Paul Ford*
+
+
+---
+background-image: url(images/usds.png)
+---
+background-image: url(images/usds2.png)
+---
+background-image: url(images/dmv.jpg)
+---
+background-image: url(images/usds3.png)
+---
+background-image: url(images/dsp00.png)
+---
+background-image: url(images/dsp00b.png)
+---
+# Understand what people need
+
+## We must begin digital projects by exploring and pinpointing the needs of the people who will use the service, and the ways the service will fit into their lives.
+
+## We need to continually test the products we build with real people to keep us honest about what is important.
+
+---
+background-image: url(images/dsp01.png)
+---
+# Address the whole experience, from start to finish
+
+## We need to understand the different ways people will interact with our services, including the actions they take online, through a mobile application, on a phone, or in person. Every encounter — whether it’s online or offline — should move the user closer towards their goal.
+
+---
+background-image: url(images/dsp02.png)
+---
+# Make it simple and intuitive
+
+# Using a government service shouldn’t be stressful, confusing, or daunting. It’s our job to build services that are simple and intuitive enough that users succeed the first time, unaided.
+---
+background-image: url(images/dsp03.png)
+---
+# Build the service using agile and iterative practices
+
+### We should use an incremental, fast-paced style of software development to reduce the risk of failure. We want to get working software into users’ hands as early as possible to give the design and development team opportunities to adjust based on user feedback about the service. A critical capability is being able to automatically test and deploy the service so that new features can be added often and be put into production easily.
+
+---
+background-image: url(images/dsp04.png)
+---
+# Structure budgets and contracts to support delivery
+
+### To improve our chances of success when contracting out development work, we need to work with experienced budgeting and contracting officers. In cases where we use third parties to help build a service, a well-defined contract can facilitate good development practices like conducting a research and prototyping phase, refining product requirements as the service is built, evaluating open source alternatives, ensuring frequent delivery milestones, and allowing the flexibility to purchase cloud computing resources.
+---
+background-image: url(images/dsp05.png)
+---
+# Assign one leader and hold that person accountable
+
+### There must be a single product owner who has the authority and responsibility to assign tasks and work elements; make business, product, and technical decisions; and be accountable for the success or failure of the overall service. This product owner is ultimately responsible for how well the service meets needs of its users, which is how a service should be evaluated. The product owner is responsible for ensuring that features are built and managing the feature and bug backlogs.
+
+---
+background-image: url(images/dsp06.png)
+---
+# Bring in experienced teams
+
+## We need talented people working in government who have experience creating modern digital services. This includes bringing in seasoned product managers, engineers, and designers. When outside help is needed, our teams should work with contracting officers who understand how to evaluate third-party technical competency so our teams can be paired with contractors who are good at both building and delivering effective digital services. 
+---
+# Choose a modern technology stack
+---
+background-image: url(images/dsp08.png)
+---
+# Deploy in a flexible hosting environment
+
+## Our services should be deployed on flexible infrastructure, where resources can be provisioned in real-time to meet spikes in traffic and user demand. Our digital services are crippled when we host them in data centers that market themselves as “cloud hosting” but require us to manage and maintain hardware directly. This outdated practice wastes time, weakens our disaster recovery plans, and results in significantly higher costs.
+---
+background-image: url(images/dsp09.png)
+---
+background-image: url(images/dsp09b.png)
+---
+# Automate testing and deployments
+
+### Today, developers write automated scripts that can verify thousands of scenarios in minutes and then deploy updated code into production environments multiple times a day. They use automated performance tests which simulate surges in traffic to identify performance bottlenecks. 
+
+### While manual tests and quality assurance are still necessary, automated tests provide consistent and reliable protection against unintentional regressions, and make it possible for developers to confidently release frequent updates to the service.
+---
+background-image: url(images/dsp10.png)
+---
+# Manage security and privacy through reusable processes
+
+### Our digital services have to protect sensitive information and keep systems secure. This is typically a process of continuous review and improvement which should be built into the development and maintenance of the service. At the start of designing a new service or feature, the team lead should engage the appropriate privacy, security, and legal officer(s) to discuss the type of information collected, how it should be secured, how long it is kept, and how it may be used and shared. 
+---
+background-image: url(images/dsp11.png)
+---
+# Use data to drive decisions
+
+## At every stage of a project, we should measure how well our service is working for our users. This includes measuring how well a system performs and how people are interacting with it in real-time. Our teams and agency leadership should carefully watch these metrics to find issues and identify which bug fixes and improvements should be prioritized. Along with monitoring tools, a feedback mechanism should be in place for people to report issues directly.
+---
+background-image: url(images/dsp12.png)
+---
+background-image: url(images/dsp12b.png)
+---
+# Default to open
+
+## When we collaborate in the open and publish our data publicly, we can improve Government together. By building services more openly and publishing open data, we simplify the public’s access to government services and information, allow the public to contribute easily, and enable reuse by entrepreneurs, nonprofits, other agencies, and the public.
+---
+background-image: url(images/dsp13.png)
+---
+background-image: url(images/ghimpact.png)
+---
+# "I spent 2004–2014 working at Red Hat, the world’s largest open source software engineering company. On my very first day there, in July 2004, my boss Marty Messer said to me: “All the work you do here will be in the open. In the future you won’t have a CV — people will just Google you.”" - Josh Wulf
+---
+## "The benefits and consequences of working in the open are clear: your reputation is yours and is portable between companies. GitHub is a social network where your social capital, created by your commits and contribution to the global conversation in whatever technology you are working, is yours — not tied to the company you happen to be working at temporarily." - Josh Wulf
+
+---
+# "You shoot off a lot of small patches until the point where the maintainers trust you, and at that point you become more than just a guy who sends patches, you become part of the network of trust." - Linus Torvalds
+
+---
+## "Your reputation is your location in a network of trust. When you change companies, that weakens and some of it is lost. If you live in a small town and have been there for a long time, then people all over town know you. If you move countries -however- that goes. You end up somewhere where no-one knows you — and worse, no-one knows anyone who knows you." - Josh Wulf
+---
+class: center, middle
+# Next Week: Project best practices, distributing your proj, microservices, & Docker
+
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>

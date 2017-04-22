@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today:
+
+## Project Best Practices
+
+---
+background-image: url(images/ghterms.png)
+---
+background-image: url(images/ghterms2.png)
+---
+background-image: url(images/ghterms3.png)
+
+---
+background-image: url(images/12f00a.png)
+???
+
+---
+background-image: url(images/12f00b.png)
+???
+2012
+
+---
+background-image: url(images/12f00c.png)
+???
+# TTT: 10
+
+---
+background-image: url(images/aas.webp)
+???
+---
+background-image: url(images/12f00b.png)
+---
+# I. Codebase: One codebase tracked in revision control, many deploys
+
+![](images/codebase-deploys.png)
+
+???
+# single repo (set of repos who share a root commit in Git)
+## If there are multiple codebases, it’s not an app – it’s a distributed system.  Each component in a distributed system is an app, and each can individually comply with twelve-factor.
+## Multiple apps sharing the same code is a violation of twelve-factor. The solution here is to factor shared code into libraries which can be included through the dependency manager.
+## There is only one codebase per app, but there will be many deploys of the app. A deploy is a running instance of the app. 
+
+---
+# II. Dependencies: Explicitly declare and isolate dependencies
+
+# A twelve-factor app never relies on implicit existence of system-wide packages.
+# Twelve-factor apps also do not rely on the implicit existence of any system tools. 
+# Containers FTW.
+
+???
+## Libraries installed through a packaging system can be installed system-wide (known as “site packages”) or scoped into the directory containing the app (known as “vendoring” or “bundling”).
+## For example, Bundler for Ruby offers the Gemfile manifest format for dependency declaration and bundle exec for dependency isolation.
+## In Python there are two separate tools for these steps – Pip is used for declaration and Virtualenv for isolation. Even C has Autoconf for dependency declaration, and static linking can provide dependency isolation. 
+
+---
+# III. Config: Store config in the environment
+
+### An app’s config is everything that is likely to vary between deploys (staging, production, developer environments, etc). This includes:
+
+### - Resource handles to the database, Memcached, and other backing services
+### - Credentials to external services such as Amazon S3 or Twitter
+### - Per-deploy values such as the canonical hostname for the deploy
+
+### Apps sometimes store config as constants in the code. This is a violation of twelve-factor, which requires strict separation of config from code. Config varies substantially across deploys, code does not.
+
+???
+
+# The twelve-factor app stores config in environment variables.
+
+---
+background-image: url(images/consul.png)
+---
+background-image: url(images/etcd.png)
+---
+background-image: url(images/raft1.png)
+???
+# Byzantine generals problem
+# 2013: "In Search of an Understandable Consensus Algorithm
+# alternative to Paxos
+## 1988, consensus in a broad family of "partially synchronous" systems
+# Leader Election, log repl
+---
+background-image: url(images/raft-userstudy.png)
+???
+# reference: https://ramcloud.stanford.edu/~ongaro/userstudy/graphs.pdf
+---
+background-image: url(images/vault.png)
+---
+background-image: url(images/keywhiz.png)
+---
+background-image: url(images/removepw.png)
+???
+# TTT: 25
+---
+
+# IV. Backing services: Treat backing services as attached resources
+
+###  The code for a twelve-factor app makes no distinction between local and third party services.
+
+![](images/attached-resources.png)
+
+???
+### Local: A backing service is any service the app consumes over the network as part of its normal operation. Examples include datastores (such as MySQL or CouchDB), messaging/queueing systems (such as RabbitMQ or Beanstalkd), SMTP services for outbound email (such as Postfix), and caching systems (such as Memcached).
+### 3rd party: Examples include SMTP services (such as Postmark), metrics-gathering services (such as New Relic or Loggly), binary asset services (such as Amazon S3), and even API-accessible consumer services (such as Twitter, Google Maps, or Last.fm).
+###  To the app, both are attached resources, accessed via a URL or other locator/credentials stored in the config. A deploy of the twelve-factor app should be able to swap out a local MySQL database with one managed by a third party (such as Amazon RDS) without any changes to the app’s code. Likewise, a local SMTP server could be swapped with a third-party SMTP service (such as Postmark) without code changes. In both cases, only the resource handle in the config needs to change.
+
+---
+# V. Build, release, run: Strictly separate build and run stages
+
+## The twelve-factor app uses strict separation between the build, release, and run stages.
+
+![](images/release.png)
+
+???
+## The build stage is a transform which converts a code repo into an executable bundle known as a build. Using a version of the code at a commit specified by the deployment process, the build stage fetches vendors dependencies and compiles binaries and assets.
+## The release stage takes the build produced by the build stage and combines it with the deploy’s current config. The resulting release contains both the build and the config and is ready for immediate execution in the execution environment.
+## The run stage (also known as “runtime”) runs the app in the execution environment, by launching some set of the app’s processes against a selected release.
+
+
+---
+# VI. Processes: Execute the app as one or more stateless processes
+
+## Twelve-factor processes are stateless and share-nothing.
+## Any data that needs to persist must be stored in a stateful backing service, typically a database.
+## The twelve-factor app never assumes that anything cached in memory or on disk will be available on a future request or job.
+???
+# Some web systems rely on “sticky sessions” – that is, caching user session data in memory of the app’s process and expecting future requests from the same visitor to be routed to the same process. Sticky sessions are a violation of twelve-factor and should never be used or relied upon.
+# Session state data is a good candidate for a datastore that offers time-expiration, such as Memcached or Redis.
+
+---
+# VII. Port binding: Export services via port binding
+
+### The twelve-factor app is completely self-contained and does not rely on runtime injection of a webserver into the execution environment to create a web-facing service.
+### The web app exports HTTP as a service by binding to a port, and listening to requests coming in on that port.
+### The port-binding approach means that one app can become the backing service for another app, by providing the URL to the backing app as a resource handle in the config for the consuming app.
+???
+## k8s / IP per container
+## This is typically implemented by using dependency declaration to add a webserver library to the app, such as Tornado for Python, Thin for Ruby, or Jetty for Java and other JVM-based languages. This happens entirely in user space, that is, within the app’s code. The contract with the execution environment is binding to a port to serve requests.
+
+---
+# VIII. Concurrency: Scale out via the process model
+
+## In the twelve-factor app, processes are a first class citizen.
+## The share-nothing, horizontally partitionable nature of twelve-factor app processes means that adding more concurrency is a simple and reliable operation.
+
+---
+
+![](images/process-types.png)
+???
+### Any computer program, once run, is represented by one or more processes. Web apps have taken a variety of process-execution forms. For example, PHP processes run as child processes of Apache, started on demand as needed by request volume. Java processes take the opposite approach, with the JVM providing one massive uberprocess that reserves a large block of system resources (CPU and memory) on startup, with concurrency managed internally via threads. In both cases, the running process(es) are only minimally visible to the developers of the app.
+## Twelve-factor app processes should never daemonize or write PID files. Instead, rely on the operating system’s process manager (such as Upstart, a distributed process manager on a cloud platform, or a tool like Foreman in development) to manage output streams, respond to crashed processes, and handle user-initiated restarts and shutdowns.
+
+---
+# IX. Disposability: Maximize robustness with fast startup and graceful shutdown
+
+### The twelve-factor app’s processes are disposable, meaning they can be started or stopped at a moment’s notice.
+### Processes should strive to minimize startup time. 
+### Processes should shut down gracefully when they receive a SIGTERM signal from the process manager.
+### Processes should also be robust against sudden death, in the case of a failure in the underlying hardware.
+
+???
+# For a worker process, graceful shutdown is achieved by returning the current job to the work queue.
+# Implicit in this model is that all jobs are reentrant, which typically is achieved by wrapping the results in a transaction, or making the operation idempotent.
+
+---
+## X. Dev/prod parity: Keep development, staging, and production as similar as possible
+
+## Substantial gaps between development and production:
+
+### The time gap: A developer may work on code that takes days, weeks, or even months to go into production.
+### The personnel gap: Developers write code, ops engineers deploy it.
+### The tools gap: Developers may be using a stack like Nginx, SQLite, and OS X, while the production deploy uses Apache, MySQL, and Linux.
+???
+# The twelve-factor developer resists the urge to use different backing services between development and production.
+Historically, there have been substantial gaps between development (a developer making live edits to a local deploy of the app) and production (a running deploy of the app accessed by end users). These gaps manifest in three areas:
+
+---
+
+![](images/dev-prod-parity.png)
+
+
+---
+background-image: url(images/vagrant.png)
+???
+# TTT: 35
+# vagrant up
+# orchastration
+---
+# XI. Logs: Treat logs as event streams
+
+### Logs provide visibility into the behavior of a running app. In server-based environments they are commonly written to a file on disk (a “logfile”); but this is only an output format.
+
+### Logs are the stream of aggregated, time-ordered events collected from the output streams of all running processes and backing services. Logs have no fixed beginning or end, but flow continuously as long as the app is operating.
+
+### A twelve-factor app never concerns itself with routing or storage of its output stream.
+
+---
+background-image: url(images/logs1.png)
+---
+background-image: url(images/logs2.png)
+---
+background-image: url(images/logs3.png)
+---
+# XII. Admin processes: Run admin/management tasks as one-off processes
+
+### One-off admin processes should be run in an identical environment as the regular long-running processes of the app.
+### They run against a release, using the same codebase and config as any process run against that release.
+### Admin code must ship with application code to avoid synchronization issues.
+
+???
+# bundle exec rake db:migrate. 
+# manage.py
+
+### Running database migrations (e.g. manage.py migrate in Django, rake db:migrate in Rails).
+### Running a console (also known as a REPL shell) to run arbitrary code or inspect the app’s models against the live database. Most languages provide a REPL by running the interpreter without any arguments (e.g. python or perl) or in some cases have a separate command (e.g. irb for Ruby, rails console for Rails).
+### Running one-time scripts committed into the app’s repo (e.g. php scripts/fix_bad_records.php).
+
+
+---
+background-image: url(images/12f00b.png)
+---
+class: center, middle
+# Distributing Your Work
+???
+# TTT: 40
+---
+background-image: url(images/semver.png)
+---
+# "In the world of software management there exists a dread place called “dependency hell.” The bigger your system grows and the more packages you integrate into your software, the more likely you are to find yourself, one day, in this pit of despair." - Tom Preston-Werner
+
+???
+# inventor of Gravatars and cofounder of GitHub.
+## TOML
+## In systems with many dependencies, releasing new package versions can quickly become a nightmare.
+## too tight: danger of version lock (the inability to upgrade a package without having to release new versions of every dependent package)
+## too loose: bitten by version promiscuity (assuming compatibility with more future versions than is reasonable)
+## Dependency hell is where you are when version lock and/or version promiscuity prevent you from easily and safely moving your project forward.
+
+---
+# How do I know when to release 1.0.0?
+
+# If your software is being used in production, it should probably already be 1.0.0. If you have a stable API on which users have come to depend, you should be 1.0.0. If you’re worrying a lot about backwards compatibility, you should probably already be 1.0.0.
+
+---
+# A typical Linux distribution comprises a Linux kernel, GNU tools and libraries, additional software, documentation, a window system (the most common being the X Window System), a window manager, and a desktop environment.
+
+---
+background-image: url(images/linux1.png)
+???
+e MCC Interim distribution that was developed in 1992. Then the parent of the MCC Interim Linux Distro (1992), Debian (1993) and RedHat (1994).
+
+---
+background-image: url(images/linux2.png)
+???
+# A Linux distribution is usually built around a package management system, which puts together the Linux kernel, free and open-source software, and often some proprietary software.
+
+---
+# From Source
+
+### wget [program].tar.gz
+### tar -xvf [program].tar.gz
+### cd [program] && ./configure
+### fix missing dependencies
+### make
+### make install
+
+---
+# From Source
+
+## git clone && build
+## go install
+
+---
+# With a Package Manager
+
+## yum install [program]
+## apt-get install [program]
+## rpm -i [program].rpm
+## dpkg -i [program].dpkg
+
+???
+# consistency, stability, vs rapid releases
+
+---
+## "Package managers are tools for software developers to help them easily share and consume software libraries and of course to manage dependencies! If you are a software developer and you are still downloading software libraries with your browser and placing them into the right directory by hand, then you are doing something wrong! That is totally 1999!"
+---
+# Package Managers
+
+#### Package manager installation is fast and easy.
+#### Package managers stabilize the system, making it robust.
+#### Repositories automatically download and install packages.
+#### Removing a package also removes its dependent packages.
+#### Package managers take care of upgrades and protect from overwriting modified configuration files.
+#### Downgrading or pinning packages using the package manager is simple.
+#### Package managers make sure that no package overwrites another package file.
+
+---
+background-image: url(images/pkg1.png)
+
+???
+# TTT: 50
+---
+# Package Managers
+
+## 2 types:
+### OS v. library managers
+
+--
+
+## 2 parts:
+###  a Repository of binaries or source code
+###  a client which communicates with the repository and performs some work on the client side. This is in most cases a command line tool
+
+???
+# easier to stay in control of dependencies since you just change a number in a text file and execute a command
+# The package manager is doing all the work for you
+# Another big advantage is that you don’t need to checkin the actual software libraries into your SCM
+
+
+---
+background-image: url(images/pkg2.png)
+
+---
+# RedHat Package Manager (RPM)
+
+## RHEL, CentOS, Fedora
+## GPL
+## SHA1 Signature System
+## Install, Remove, Upgrade, Verify, Query
+
+---
+# Advanced Package Tool (APT)
+
+## Ubuntu, Debian, Slackware
+## GPL
+## Similar experience as RPM, but build from source rather than ibinary
+
+???
+# mention corrupt DB
+
+---
+background-image: url(images/pkg4.png)
+
+---
+# Library Package Managers
+
+### RubyGems / Bundler (Ruby)
+### PIP / PyPI (Python)
+### PEAR / Composer (PHP)
+### NPM (Node.JS)
+### Bower (JS, CSS, HTML)
+### CocoaPods (Objective-C)
+---
+# Library Package Managers
+
+### Maven (Java)
+### Lein (Clojure)
+### Crate (Rust)
+
+---
+background-image: url(images/pkg3.png)
+
+???
+mirrored, documented, tested, bugtracked, web-interfaced and commandlined, searchable and everything else…
+
+
+---
+background-image: url(images/fpm.png)
+
+---
+# Why FPM?
+
+#### Sometimes packaging is done wrong (because you can't do it right for all situations), but small tweaks can fix it.
+
+--
+
+#### And sometimes, there isn't a package available for the tool you need.
+
+--
+
+#### And sometimes if you ask "How do I get python 3 on CentOS 5?" some unhelpful trolls will tell you to "Use another distro"
+
+--
+
+#### Further, a job switches have me flipping between Ubuntu and CentOS. These use two totally different package systems with completely different packaging policies and support tools. Learning both was painful and confusing. I want to save myself (and you) that pain in the future.
+
+--
+
+#### It should be easy to say "here's my install dir and here's some dependencies; please make a package"
+
+---
+# Why FPM?
+
+#### I wanted a simple way to create packages without needing to memorize too much.
+
+--
+
+#### I wanted a tool to help me deliver software with minimal steps or training.
+
+--
+
+#### The goal of FPM is to be able to easily build platform-native packages.
+
+--
+
+#### With fpm, you can do many things, including:
+
+--
+
+#### Creating packages easily (deb, rpm, freebsd, etc)
+
+--
+
+#### Tweaking existing packages (removing files, changing metadata/dependencies)
+
+--
+
+#### Stripping pre/post/maintainer scripts from packages
+
+---
+# FPM Targets:
+
+### deb
+### rpm
+### solaris
+### freebsd
+### tar
+### directories
+### Mac OS X .pkg files (osxpkg)
+### pacman (ArchLinux) packages
+
+---
+background-image: url(images/fpm2.png)
+
+---
+background-image: url(images/sweet1.png)
+---
+background-image: url(images/sweet2.png)
+???
+# TTT: 60
+SKIP 3 if > 60
+---
+background-image: url(images/sweet3.png)
+---
+background-image: url(images/sweet4a.png)
+---
+background-image: url(images/sweet4.png)
+---
+background-image: url(images/sweet5.png)
+---
+background-image: url(images/sweet6.png)
+---
+background-image: url(images/d0.png)
+---
+class: center, middle
+# Looking Forward...
+
+---
+background-image: url(images/timeoff1.png)
+
+---
+# Transitions are Hard (And You Can’t Predict What Type of Hard)
+
+## In the weeks before and after I left, very smart people told me the transition would be tough.
+## The same emotion and energy I threw into my job could easily be transposed into anxiety about how to spend my newly unlocked free time.
+
+--
+
+#### Where I’d previously puzzled over org design questions, I now puzzled over proper optimization of summer days; where I’d once stressed about marketing program ROI, I now stressed over whether I was relaxed enough. I wasn’t relaxed, if you were wondering.
+
+---
+## “Thus we have the paradoxical situation: On the job people feel skillful and challenged, and therefore feel more happy, strong, creative and satisfied. In their free time people feel that there is generally not much to do and their skills are not being used, and therefore tend to feel more sad, weak dull and dissatisfied. Yet they would like to work less and spend more time in leisure.” - Mihaly Csikszentmihalyi, Flow
+
+---
+# Ask for Advice (But Only Take What You Need)
+
+## What I found very quickly is that everyone has advice about how to use time off. Give yourself a break. Eat ice cream.
+
+---
+# Add Structure and Goals (But Not Too Many)
+
+## I spent a lot of time thinking about what I wanted to get out of my time off, besides a full eight hours a night. I made lists : how I wanted to feel, things I wanted to do, topics I wanted to explore. Setting goals for time off might sound counterintuitive but I found it was the only way for me to combat the incessant, “Is this the best way to spend my time?”
+
+???
+## And it helped that many of my goals were fun. I needed to reset my brain, and remind it how to think outside of my all consuming six-year long job, so I weaned myself off my devices (though let’s be realistic, Snapchat and Instagram not included). I stopped reflexively checking email, and for the first time left my laptop unopened for days on end. I read the news instead of skimming it, and got deep into podcasts.
+
+---
+# In Summary (Mollie Chen)
+
+## ...it’s an incredible luxury to be able to take time off (financially and otherwise)
+
+--
+
+## So, for anyone who is thinking about, or going through a transition, my advice is simple. Know it’s going to be both scary and exciting. Listen to the smart people in your life, but follow your instincts. Set goals, but not too many. And then give yourself a break. You’ve earned it.
+
+---
+# The Answer Isn’t Becoming a Workaholic
+
+# Instead, Fill Your Spare Time With *Active Leisure*
+
+### http://www.lifehack.org/articles/featured/why-your-free-time-is-boring.html
+
+* Join a meetup
+* Start a new hobby or craft
+* Play a sport
+* Learn a new language
+* Play a Game
+* Start a Project
+
+---
+class: center, middle
+
+# Wednesday: Microservices & Docker
+
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
