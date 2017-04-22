@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today: Automation, Testing, API Design
+
+---
+background-image: url(images/micro1.jpg)
+---
+background-image: url(images/mm0.png)
+---
+# Micro-monolith on the frontend level
+
+## "According to agile methodology, a team should be cross-functional and be able to deliver entire feature themselves. Thus, it seems natural not to create single service responsible for whole frontend. Such approach is a short road to frontend monolith. The frontend team is involved in every change and becomes a bottleneck.  Instead, each team should provide a piece of frontend suitable for a domain they build."
+
+---
+# Micro-monolith on the services level
+
+## "Macro architecture of a system should limit impact to each microservice. Similarly, architecture of each microservice should not affect to macro architecture. "
+
+## "Another dangerous decision is to use a lib for reusing code. In this case teams are devoid of technological independence. Moreover, domain modification requires teams synchronization and changes in many services.  Abandoning a DRY principle for independence should be considered."
+
+---
+# Micro-monolith on the database level
+
+## "Unfortunately, the most difficult task is to refactoring and splitting the monolith database (especially RDBMS).  Any modification of database model requires teams synchronization and potentially changing of many services, what should be abandoned."
+
+---
+# Micro-monolith Testing
+
+## "Even if microservices are split and separated well, improper approach to deploy pipeline may push you into the micro-monolith anti-pattern. The challenge is to test the entire system.  Shared tests across the entire system may be a bottleneck of a deploy pipeline what limits frequent deployments."
+
+---
+background-image: url(images/mm1.png)
+---
+background-image: url(images/vw1.png)
+---
+background-image: url(images/vw2.png)
+---
+background-image: url(images/vw3.png)
+---
+background-image: url(images/vw4.jpg)
+---
+background-image: url(images/vw5.jpg)
+---
+background-image: url(images/vw6.png)
+---
+background-image: url(images/ethics4.jpg)
+---
+## After Krennic captures him, Galen later tells his daughter Jyn that he had a choice: he could have continued abstaining, and let someone else build the Death Star, or he could dive deep into the project, become indispensable to it, and find a way to stop it.
+---
+background-image: url(images/starwars.jpg)
+---
+# “Whistle-blowing - to use a word that appears early and often in many discussions of engineering ethics - is a rare and extreme circumstance, worthy of consideration, to be sure, but not deserving of the central role it has been given in studies of the field.” - engineer philosopher Samuel Florman
+---
+background-image: url(images/ethics2.png)
+---
+background-image: url(images/ethics3.png)
+---
+background-image: url(images/ethics5.png)
+---
+background-image: url(images/ethics6.png)
+---
+background-image: url(images/asiana.png)
+---
+background-image: url(images/ethics7.png)
+---
+# NSPE Code of Ethics for Engineers
+
+--
+
+#### Hold paramount the safety, health, and welfare of the public.
+#### Perform services only in areas of their competence.
+#### Issue public statements only in an objective and truthful manner.
+#### Act for each employer or client as faithful agents or trustees.
+#### Avoid deceptive acts.
+#### Conduct themselves honorably, responsibly, ethically, and lawfully so as to enhance the honor, reputation, and usefulness of the profession.
+---
+background-image: url(images/ethics8.png)
+---
+## Principle 1: PUBLIC: Software engineers shall act consistently with the public interest.
+
+--
+
+#### Accept full responsibility for their own work.
+#### Moderate the interests of the software engineer, the employer, the client and the users with the public good.
+#### Approve software only if they have a well-founded belief that it is safe, meets specifications, passes appropriate tests, and does not diminish quality of life, diminish privacy or harm the environment. The ultimate effect of the work should be to the public good.
+#### Disclose to appropriate persons or authorities any actual or potential danger to the user, the public, or the environment, that they reasonably believe to be associated with software or related documents.
+
+
+---
+## Principle 2: CLIENT AND EMPLOYER: Software engineers shall act in a manner that is in the best interests of their client and employer, consistent with the public interest. 
+
+--
+
+#### Provide service in their areas of competence, being honest and forthright about any limitations of their experience and education.
+#### Not knowingly use software that is obtained or retained either illegally or unethically.
+#### Use the property of a client or employer only in ways properly authorized, and with the client's or employer's knowledge and consent.
+#### Keep private any confidential information gained in their professional work, where such confidentiality is consistent with the public interest and consistent with the law.
+
+
+---
+## Principle 3: PRODUCT: Software engineers shall ensure that their products and related modifications meet the highest professional standards possible. 
+
+--
+
+#### Strive for high quality, acceptable cost and a reasonable schedule, ensuring significant tradeoffs are clear to and accepted by the employer and the client.
+#### Identify, define and address ethical, economic, cultural, legal and environmental issues related to work projects.
+#### Strive to fully understand the specifications for software on which they work.
+#### Ensure adequate testing, debugging, and review of software and related documents on which they work.
+
+---
+## Principle 4: JUDGMENT: Software engineers shall maintain integrity and independence in their professional judgment.
+
+--
+
+#### Temper all technical judgments by the need to support and maintain human values.
+#### Maintain professional objectivity with respect to any software or related documents they are asked to evaluate.
+#### Not engage in deceptive financial practices such as bribery, double billing, or other improper financial practices.
+#### Disclose to all concerned parties those conflicts of interest that cannot reasonably be avoided or escaped.
+
+---
+## Principle 5: MANAGEMENT: Software engineering managers and leaders shall subscribe to and promote an ethical approach to the management of software development and maintenance.
+
+--
+
+#### Ensure good management for any project on which they work, including effective procedures for promotion of quality and reduction of risk.
+#### Ensure that software engineers know the employer's policies and procedures for protecting passwords, files and information that is confidential to the employer or confidential to others.
+#### Ensure realistic quantitative estimates of cost, scheduling, personnel, quality and outcomes on any project on which they work or propose to work, and provide an uncertainty assessment of these estimates.
+#### Attract potential software engineers only by full and accurate description of the conditions of employment.
+
+---
+## Principle 6: PROFESSION: Software engineers shall advance the integrity and reputation of the profession consistent with the public interest.
+
+--
+
+#### Help develop an organizational environment favorable to acting ethically.
+#### Extend software engineering knowledge by appropriate participation in professional organizations, meetings and publications.
+#### Support, as members of a profession, other software engineers striving to follow this Code.
+#### Not promote their own interest at the expense of the profession, client or employer.
+
+---
+## Principle 7: COLLEAGUES Software engineers shall be fair to and supportive of their colleagues.
+
+--
+
+#### Encourage colleagues to adhere to this Code.
+#### Assist colleagues in professional development.
+#### Credit fully the work of others and refrain from taking undue credit.
+#### Give a fair hearing to the opinions, concerns, or complaints of a colleague.
+
+---
+## Principle 8: SELF: Software engineers shall participate in lifelong learning regarding the practice of their profession and shall promote an ethical approach to the practice of the profession. 
+
+--
+
+#### Further their knowledge of developments in the analysis, specification, design, development, maintenance and testing of software and related documents, together with the management of the development process.
+#### Improve their ability to create safe, reliable, and useful quality software at reasonable cost and within a reasonable time.
+#### Not give unfair treatment to anyone because of any irrelevant prejudices.
+#### Recognize that personal violations of this Code are inconsistent with being a professional software engineer.
+
+--
+
+---
+# The average Facebook user spends almost an hour on the site every day, according to data provided by the company last year. A Deloitte survey found that for many smartphone users, checking social media apps are the first thing they do in the morning – often before even getting out of bed.
+---
+background-image: url(images/ethics1.png)
+
+---
+
+# Business Continuity Planning
+---
+background-image: url(images/bcp.jpg)
+---
+# Business Continuity Planning
+
+## Mean Time Between Failures (MTBF) 
+## Mean Time to Repair (MTTR)
+
+--
+
+## Recovery Time Objective (RTO)
+## Recovery Point Objective (RPO)
+
+--
+
+## Business impact analysis (BIA)
+
+
+---
+background-image: url(images/avail.png)
+
+---
+background-image: url(images/gcp.png)
+
+---
+# Key Metrics
+## Request latency
+## Error rate
+## System throughput
+## Availability / yield
+## Durability
+
+---
+# Standardized Indicators
+### Aggregation intervals: “Averaged over 1 minute”
+### Aggregation regions: “All the tasks in a cluster”
+### How frequently measurements are made: “Every 10 seconds”
+### Which requests are included: “HTTP GETs from black-box monitoring jobs”
+### How the data is acquired: “Through our monitoring, measured at the server”
+### Data-access latency: “Time to last byte”
+
+---
+background-image: url(images/percentiles.png)
+---
+background-image: url(images/ha.png)
+---
+background-image: url(images/dr.png)
+---
+
+## "Users typically don’t notice the difference between high reliability and extreme reliability in a service, because the user experience is dominated by less reliable components like the cellular network or the device they are working with. Put simply, a user on a 99% reliable smartphone cannot tell the difference between 99.99% and 99.999% service reliability!"
+
+---
+# Don’t pick a target based on current performance
+## While understanding the merits and limits of a system is essential, adopting values without reflection may lock you into supporting a system that requires heroic efforts to meet its targets, and that cannot be improved without significant redesign.
+
+---
+# Keep it simple
+## Complicated aggregations in performance targets can obscure changes to system performance, and are also harder to reason about.
+
+---
+# Avoid absolutes
+## While it’s tempting to ask for a system that can scale its load "infinitely" without any latency increase and that is "always" available, this requirement is unrealistic. Even a system that approaches such ideals will probably take a long time to design and build, and will be expensive to operate—and probably turn out to be unnecessarily better than what users would be happy (or even delighted) to have.
+
+---
+# Have as few key metrics as possible
+## Choose just enough key metrics to provide good coverage of your system’s attributes. Defend the key metrics you pick: if you can’t ever win a conversation about priorities by quoting a particular key metric, it’s probably not worth tracking that metric.
+
+---
+# Perfection can wait
+## You can always refine definitions and targets over time as you learn about a system’s behavior. It’s better to start with a loose target that you tighten than to choose an overly strict target that has to be relaxed when you discover it’s unattainable.
+
+---
+# Keep a safety margin
+## Using tighter internal targets than advertised to users gives you room to respond to chronic problems before they become visible externally. A buffer also makes it possible to accommodate reimplementations that trade performance for other attributes, such as cost or ease of maintenance, without having to disappoint users.
+
+---
+# Don’t overachieve
+## Users build on the reality of what you offer, rather than what you say you’ll supply, particularly for infrastructure services. If your service’s actual performance is much better than its stated targets, users will come to rely on its current performance. You can avoid over-dependence by deliberately taking the system offline occasionally, throttling some requests, or designing the system so that it isn’t faster under light loads.
+---
+# A Handful of High Availability Design Principles
+
+---
+# Practice!
+
+# During the 2002–2003 SARS outbreak, some organizations grouped staff into separate teams, and rotated the teams between primary and secondary work sites, with a rotation frequency equal to the incubation period of the disease.
+
+---
+background-image: url(images/dirt.png)
+---
+# Why monitor?
+
+## Analyzing long-term trends
+## Comparing over time or experiment groups
+## Alerting and building dashboards
+## Conducting ad hoc retrospective analysis
+## Reporting on SLIs/SLOs
+
+---
+# Monitoring Gotchas
+
+## Black-Box vs White-Box
+
+## Root Cause Analysis
+
+## Symptoms vs Causes
+
+---
+background-image: url(images/mon1.png)
+
+---
+# The Four Golden Signals
+
+## Latency: Error vs non-error latency
+## Traffic: Req/sec, I/O rate, concurrent sessions, etc.
+## Errors: explicit, implicit, by policy
+## Saturation: utilization targets, load, impending saturation
+
+---
+# Fundamental philosophy on alerts
+
+### Every time the pager goes off, I should be able to react with a sense of urgency. I can only react with a sense of urgency a few times a day before I become fatigued.
+### Every page should be actionable.
+### Every page response should require intelligence. If a page merely merits a robotic response, it shouldn’t be a page.
+### Pages should be about a novel problem or an event that hasn’t been seen before.
+
+---
+# Monitoring Evolution
+
+# 1. Probe
+# 2. Push
+# 3. Pull
+---
+background-image: url(images/nag1.png)
+---
+background-image: url(images/nag2.png)
+---
+background-image: url(images/nag3.png)
+---
+background-image: url(images/nag4.png)
+---
+background-image: url(images/nag5.png)
+---
+background-image: url(images/nag6.png)
+---
+background-image: url(images/ts0.png)
+---
+background-image: url(images/ts1.png)
+---
+background-image: url(images/ts2.png)
+---
+background-image: url(images/ts3.png)
+---
+background-image: url(images/ts4.png)
+---
+background-image: url(images/ts5.png)
+---
+background-image: url(images/ts6.png)
+---
+background-image: url(images/ts7.png)
+---
+
+class: center, middle
+# @cdixon on Climbing the wrong hill
+
+---
+background-image: url(images/hill.png)
+
+---
+# Going back to the job candidate, he has the benefit of having a less foggy view of his terrain.   He knows (or at least believes) he wants to end up at the top of a different hill than he is presently climbing.  He can see that higher hill from where he stands.
+
+---
+# But the lure of the current hill is strong.  There is a natural human tendency to make the next step an upward one.  He ends up falling for a common trap highlighted by behavioral economists:  people tend to systematically overvalue near term over long term rewards.  
+
+---
+# This effect seems to be even stronger in more ambitious people.  Their ambition seems to make it hard for them to forgo the nearby upward step.
+
+---
+class: center, middle
+# "People early in their career should learn from computer science:  meander some in your walk (especially early on), randomly drop yourself into new parts of the terrain, and when you find the highest hill, don’t waste any more time on the current hill no matter how much better the next step up might appear." - Chris Dixon
+---
+background-image: url(images/random.png)
+---
+class: center, middle
+
+# Next Week: Security, Resources, and Projects
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
