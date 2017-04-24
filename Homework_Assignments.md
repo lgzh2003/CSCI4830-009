@@ -23,7 +23,7 @@ Option 1: Add these files to your class project repository (if you control it).
 Option 2: Create a "hello world" repository specifically for HW3 and HW4.
 
 ## H4
-**Due:** TBA  
+**Due:** April 26
 Implement CI/CD for your GitHub repository.
 
 ## Project

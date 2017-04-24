@@ -80,7 +80,7 @@
 
 **Keyu Chen**                 
                
-**Option 1**: I added the files to my existing [project](https://github.com/lgzh2003/React/tree/master/projectHere)         
+**Option 2**: I added the files to my [light weighted project](https://github.com/lgzh2003/React/tree/master/projectHere)         
 
 ---
 
@@ -119,3 +119,7 @@
 **Link** https://github.com/ChaitraRp/PyChecker
 
 ---
+
+**Aubree Lytwyn**
+
+**Option 2** https://github.com/Aubree/OpenSourceLearning.git

@@ -16,3 +16,6 @@ There hasn't been much work being done on Will and the last commit was way back 
 
 ## HW3
 Link to repo for HW #3 - https://github.com/SaishRedkar/HelloBoulder
+
+## HW4
+Added files to HW #3 repo for demonstrating continuous integration using TravisCI.
