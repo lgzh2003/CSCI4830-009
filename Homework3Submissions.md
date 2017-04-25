@@ -18,9 +18,9 @@
 
 **Bharadwaj Thirumal**
 
-**Option ?** I already had a repo with all files except CONTRIBUTING.md. Added it to the repo.
+**Option 2** Created a repo for Homeworks 3 and 4
 
-**Link** https://github.com/bharadwajth/study-materials
+**Link** https://github.com/bharadwajth/TravisCI-Test
 
 ---
 
