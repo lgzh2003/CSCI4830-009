@@ -16,3 +16,6 @@ Bootstrap is widely used and we want to make an elegant, ready-to-use template f
 
 ## Homework 3
 Our project repository (https://github.com/luvnico/BootstrapTemplate) has been updated for hw3.
+
+## Homework 4
+Our project repository (https://github.com/luvnico/BootstrapTemplate) has been updated for hw4.
