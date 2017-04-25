@@ -15,3 +15,10 @@ HW 3 repository link:
 https://github.com/shaikalimulla/OpenSource-Project
 
 Created two Alexa skills for HW 3 and stored in two different repositories.
+
+HW 4:
+Alexa skills can be tested on AWS cloud and instructions are mentioned in README.md file of each skill. For the deployement of new changes or new skills, need to use Node.js environment 
+and same can be deployed on AWS cloud as well. Instructions for setup of Node JS environment on local computer and deployement to cloud are also mentioned in README.md. 
+
+1. https://github.com/shaikalimulla/OpenSource-Project/blob/master/Alexa%20Fact%20Skill/README.md
+2. https://github.com/shaikalimulla/OpenSource-Project/blob/master/Alexa%20Get%20Weather%20Skill/README.md
