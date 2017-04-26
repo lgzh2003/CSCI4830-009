@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSCI 4830-009: Open Source Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+    <style type="text/css">
+	.remark-slide-content { 
+		background-size: 100% 100%;
+	}
+	.invert {
+		color: #fdd;
+	}
+	.footnote {
+		position: absolute;
+		bottom: 3em;
+		color: #f06; 
+	}
+	img {
+		width: 100%;
+	}
+	.hero {
+		color: #22a; 
+		background-color: #eee;
+		padding: 4px;
+		font-size: 100px;
+	}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 4830-009
+
+## Open Source Development
+## Spring, 2017
+## Ned McClain
+
+---
+class: center, middle
+
+# Welcome!
+
+--
+
+## Today: HA Design, Lessons, Analytics
+---
+background-image: url(images/xkcd.png)
+---
+background-image: url(images/slack1.png)
+---
+## 1. Slack, et al, are paid services with closed memberships. The content inside those systems is closed. I cannot link to a discussion in a Slack channel in a tweet. I cannot refer to it in an issue report, and I cannot cite it in a presentation. Knowledge is silo’d to those who have the time and ability to participate in chat services in real time.
+---
+## 2. Slack, et al, are based on synchronous communication, which discriminate against those who do not or can not take part of the conversation in real time. For example, real time chat discriminates against those who aren’t in the same time zone–you can’t participate fully in an open source project if all the discussion happens while you’re asleep.
+---
+## Even if you are in the same time zone, real time chat assumes a privilege that you have the spare time–or an employer who doesn’t mind you being constantly distracted–to be virtually present in a chat room. Online chat clients are resource hogs, and presume the availability of a fast computer and ample, always on, internet connection, again raising the bar for participation.
+---
+## In my view these issues are inseparable. Calls to use IRC instead, miss the point that IRC is similarly real-time, just as efforts to create a post facto log of a Slack channel miss the fact that this is a record of a conversation which others cannot contribute equally.
+
+## There is no solution for equitable open source communication that does not address both simultaneously.
+---
+# Prefer asynchronous communication for open source projects
+
+## Instead of closed, synchronous, systems I recommend open source projects stick to asynchronous communication tools that leave a publicly linkable, searchable, url. The tools that fit this requirement best are; mailing list, issue trackers, and forums.
+---
+class: center, middle
+# Design for High Availability
+
+---
+# Disposable Resources Instead of Fixed Servers
+
+--
+
+## Dynamic provisioning and configuration drift
+
+--
+
+## Immutable Infrastructure and Pets vs Cattle
+
+--
+
+## Golden Images and Infra as Code
+
+---
+# Loose Coupling
+
+### Monolith -> SOA -> Microservices
+
+--
+
+### Well-Defined Interfaces
+
+--
+
+### Service Discovery
+
+--
+
+### Asynchronous Integration
+
+--
+
+### Circuit Breakers
+
+--
+
+### Graceful Failure
+
+---
+# Fail Sanely
+## Sanitize and validate configuration inputs, and respond to implausible inputs by both continuing to operate in the previous state and alerting to the receipt of bad input.
+
+---
+# Fail Sanely
+
+## Incorrect data: Validate both syntax and, if possible, semantics. Watch for empty data and partial or truncated data (e.g., alert if the configuration is N% smaller than the previous version).
+
+## Delayed data: This may invalidate current data due to timeouts. Alert well before the data is expected to expire.
+---
+## In 2005, Google’s global DNS load- and latency-balancing system received an empty DNS entry file as a result of file permissions. It accepted this empty file and served NXDOMAIN for six minutes for all Google properties. In response, the system now performs a number of sanity checks on new configurations, including confirming the presence of virtual IPs for google.com, and will continue serving the previous DNS entries until it receives a new file that passes its input checks.
+
+---
+## In 2009, incorrect (but valid) data led to Google marking the entire Web as containing malware. A configuration file containing the list of suspect URLs was replaced by a single forward slash character (/), which matched all URLs. Checks for dramatic changes in file size and checks to see whether the configuration is matching sites that are believed unlikely to contain malware would have prevented this from reaching production.
+
+---
+# Fail Sanely
+# Fail in a way that preserves function, possibly at the expense of being overly permissive or overly simplistic. It’s generally safer for systems to continue functioning with their previous configuration and await a human’s approval before using the new, perhaps invalid, data.
+
+---
+background-image: url(images/gcp.png)
+---
+background-image: url(images/gcp2.png)
+---
+# Backing Services
+
+## Is this a read-heavy, write-heavy, or balanced workload? How many reads and writes per second are you going to need? How will those values change if the number of users increases?
+
+## What are your latency requirements? How many concurrent users do you need to support?
+
+---
+class: center, middle
+# "premature optimization is the root of all evil."
+
+# -- Sir Tony Hoare (popularized by Donald Knuth)
+
+---
+# Backing Services
+
+## How much data will you need to store and for how long? How quickly do you foresee this will grow? Is there an upper limit in the foreseeable future? What is the size of each object (average, min, max)? How are these objects going to be accessed?
+
+## What are the requirements in terms of durability of data? Is this data store going to be your “source of truth”?
+
+
+---
+# Backing Services
+## What is your data model and how are you going to query the data? Are your queries relational in nature (e.g., JOINs between multiple tables)?  Could you denormalize your schema to create flatter data structures that are easier to scale?
+
+---
+# Backing Services
+## What kind of functionality do you require? Do you need strong integrity controls or are you looking for more flexibility (e.g., schema-less data stores)? Do you require sophisticated reporting or search capabilities?  Are your developers more familiar with relational databases than NoSQL?
+
+---
+# Removing Single Points of Failure 
+
+## Standby vs Active Redundancy
+## Failure Detection / Healthchecking
+## Durable Data Storage and Backups
+## Geographic Redundancy
+## Fault Isolation and Sharding
+
+---
+# Architect for Scalability
+
+### A scalable architecture can support growth in users, traffic, or data size with no drop in performance.
+### It should provide that scale in a linear manner where adding extra resources results in at least a proportional increase in ability to serve additional load.
+### Growth should introduce economies of scale, and cost should follow the same dimension that generates business value out of that system. 
+
+---
+# Scalability ingredients
+
+## Vertical vs Horizontal scaling
+
+## Stateful vs Stateless components
+
+## Reliable backing services
+---
+# Caching
+
+## In-DB caching
+## Application in-memory caching
+## Edge Caching
+## Browser Caching
+
+---
+# Design for Simplicity
+
+# "The price of reliability is the pursuit of the utmost simplicity." -- C.A.R. Hoare, Turing Award lecture
+
+---
+# Design for Simplicity
+
+### Stability Versus Agility
+### The Virtue of Boring
+### Essential complexity and accidental
+### The "Negative Lines of Code" Metric
+### Minimal APIs
+### Release Simplicity
+
+---
+# Design for Simplicity
+
+# "Unlike a detective story, the lack of excitement, suspense, and puzzles is actually a desirable property of source code." -- Google engineer Robert Muth
+
+---
+background-image: url(images/boring1.png)
+---
+background-image: url(images/boring2.jpg)
+---
+class: center, middle
+# The nice thing about boringness is that the capabilities of these things are well understood. But more importantly, their failure modes are well understood.  -- Dan McKinley
+---
+background-image: url(images/boring3.png)
+---
+background-image: url(images/boring4.png)
+---
+class: center, middle
+## Let's say every company gets about three innovation tokens. You can spend these however you want, but the supply is fixed for a long while. 
+---
+class: center, middle
+## If you choose to write your website in NodeJS, you just spent one of your innovation tokens. If you choose to use MongoDB, you just spent one of your innovation tokens. If you choose to use service discovery tech that's existed for a year or less, you just spent one of your innovation tokens. If you choose to write your own database, oh god, you're in trouble.
+
+---
+class: center, middle
+## Any of those choices might be sensible if you're a javascript consultancy, or a database company. But you're probably not. You're probably working for a company that is at least ostensibly rethinking global commerce or reinventing payments on the web or pursuing some other suitably epic mission.
+
+---
+class: center, middle
+## In that context, devoting any of your limited attention to innovating is an excellent way to fail. Or at best, delay success [1].
+---
+# Choose New Technology, Sometimes.
+
+## Taking this reasoning to its reductio ad absurdum would mean picking Java, and then trying to implement a website without using anything else at all. And that would be crazy. You need some means to add things to your toolbox.
+---
+# Choose New Technology, Sometimes.
+
+## 1. Consider how you would solve your immediate problem without adding anything new. First, posing this question should detect the situation where the "problem" is that someone really wants to use the technology. If that is the case, you should immediately abort.
+
+---
+# Choose New Technology, Sometimes.
+## 2. Write down exactly what it is about the current stack that makes solving the problem prohibitively expensive and difficult.
+---
+# Choose New Technology, Sometimes.
+
+## 3. New technology choices might be purely additive, but they might also overlap or replace things you are already using. If that's the case, you should set clear expectations about migrating old functionality to the new system. The policy should typically be "we're committed to migrating," with a proposed timeline. 
+
+---
+## Polyglot programming is sold with the promise that letting developers choose their own tools with complete freedom will make them more effective at solving problems. This is a naive definition of the problems at best, and motivated reasoning at worst. The weight of day-to-day operational toil this creates crushes you to death.
+
+---
+class: center, middle
+## Mindful choice of technology gives engineering minds real freedom: the freedom to contemplate bigger questions. Technology for its own sake is snake oil. -- Dan McKinley
+
+---
+background-image: url(images/sysdes.png)
+---
+background-image: url(images/sysdes1.png)
+---
+# Analytics: Why measure anything?
+
+--
+
+## Data, when used wisely, can help you make better decisions as an open source maintainer.
+
+---
+# Why measure anything?  With more information, you can:
+
+### Understand how users respond to a new feature
+### Figure out where new users come from
+### Identify, and decide whether to support, an outlier use case or functionality
+### Quantify your project’s popularity and understand how your project is used
+### Raise money through sponsorships and grants
+---
+class: center, middle
+## "Homebrew is provided free of charge and run entirely by volunteers in their spare time. As a result, we do not have the resources to do detailed user studies of Homebrew users to decide on how best to design future features and prioritise current work. Anonymous aggregate user analytics allow us to prioritise fixes and features based on how, where and when people use Homebrew."
+---
+# Popularity isn’t everything. Everybody gets into open source for different reasons. If your goal as an open source maintainer is to show off your work, be transparent about your code, or just have fun, some metrics may not be important to you.
+---
+# Open Source Lifecycle Metrics
+
+## 1. Tracking Discovery
+## 2. Tracking Usage
+## 3. Tracking Retention
+## 4. Tracking Maintainer Activity
+---
+# 1. Tracking Discovery
+
+## Before anybody can use or contribute back to your project, they need to know it exists. Ask yourself: are people finding this project?
+---
+background-image: url(images/metrics1.png)
+---
+background-image: url(images/goog.png)
+---
+background-image: url(images/goog2.png)
+---
+# Growth
+
+## Project Demo Site
+## Meetups, & Hackathons
+## Student Projects
+## Content Marketing & Social
+## Growth Hacking
+
+---
+background-image: url(images/price1.png)
+---
+background-image: url(images/price2.png)
+---
+background-image: url(images/price3.png)
+---
+background-image: url(images/price4.png)
+---
+background-image: url(images/minio.png)
+
+---
+# 2. Tracking Usage
+
+## Ideally, when they see your project, they’ll feel compelled to do something. The second question you’ll want to ask is: are people using this project?
+---
+background-image: url(images/metrics2.png)
+---
+background-image: url(images/metrics3.png)
+---
+background-image: url(images/metrics4.png)
+---
+background-image: url(images/metrics5.png)
+---
+## If usage is low compared to the number of people discovering your project, there are two issues to consider. Either:
+
+### Your project isn’t successfully converting your audience, or
+### You’re attracting the wrong audience
+
+---
+# 3. Tracking Retention
+
+## The next question you’ll want to ask yourself is: are people contributing back to this project?
+---
+# Community retention metrics
+## Total contributor count and number of commits per contributor
+### Tells you how many contributors you have, and who’s more or less active.
+![](images/metrics6.png)
+---
+# Community retention metrics
+## First time, casual, and repeat contributors
+### Helps you track whether you’re getting new contributors, and whether they come back. (Casual contributors are contributors with a low number of commits. Whether that’s one commit, less than five commits, or something else is up to you.) Without new contributors, your project’s community can become stagnant.
+---
+# Community retention metrics
+## Number of open issues and open pull requests
+### If these numbers get too high, you might need help with issue triaging and code reviews.
+---
+# Community retention metrics
+## Number of opened issues and opened pull requests
+### Opened issues means somebody cares enough about your project to open an issue. If that number increases over time, it suggests people are interested in your project. Too many may indicate software or documentation quality issues.
+---
+# Community retention metrics
+## Types of contributions
+### For example, commits, fixing typos or bugs, or commenting on an issue.
+---
+background-image: url(images/metrics7.png)
+---
+# 4. Tracking Maintainer Activity
+
+## Finally, you’ll want to close the loop by making sure your project’s maintainers are able to handle the volume of contributions received. The last question you’ll want to ask yourself is: am I (or are we) responding to our community?
+
+---
+background-image: url(images/metrics8.png)
+---
+# Maintainer Engagement
+
+### Average and worst-case time to respond to issue or a pull request.
+### Average and worst-case time to respond to pull request.
+### Average time an issue remains open.
+### Whether issues get closed by PRs.
+### Whether stale issues get closed.
+### Average time to merge a pull request.
+
+---
+background-image: url(images/wbw.png)
+---
+class: center, middle
+
+# Before Wednesday: email with your homework grades
+# Wednesday: Security, Resources, and Project Presentation Details
+
+    </textarea>
+    <script src="../remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var slideshow = remark.create({countIncrementalSlides: true});</script>
+  </body>
+</html>
