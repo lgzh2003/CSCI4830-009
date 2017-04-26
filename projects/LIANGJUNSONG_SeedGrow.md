@@ -11,4 +11,6 @@ It always took me some time to set up a new project. With this tiny usefull tool
 ## Why this contribution is meaningful to the project (1-3 sentences):
 To make developer's life easier.
 
+## Added HW4 to project repo.
+
 *Please use the following file name format: projects/STUDENTNAME_PROJECTNAME.md*
