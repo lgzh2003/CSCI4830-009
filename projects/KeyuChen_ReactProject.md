@@ -15,4 +15,7 @@
 - Share my light project can let everyone see my project and someone may pull and request for update and upgrade which will help a lot
              
 ## Add HW3 link           
-I added files to my original project folder, and create a new folder called [projectHere](https://github.com/lgzh2003/React/tree/master/projectHere)
+I added files to my original project folder, and create a new folder called [projectHere](https://github.com/lgzh2003/React/tree/master/projectHere)            
+      
+## Add HW4 link
+I use Travis CI for continues integration. Please click the [link](https://github.com/lgzh2003/React/blob/master/projectHere/README.md) to see in the README file.
